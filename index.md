@@ -147,3 +147,5 @@ Kafka, RabbitMQ, NService Bus, Azure Service Bus, Azure Function
 `DevOps`
 Kubernetes, Docker
 
+## Online Presence
+###### [linkedin](https://www.linkedin.com/in/hasan-shahjahan/), [medium](https://medium.com/@hasanshahjahan), [instagram](https://www.instagram.com/hasan_shahjahan/)
