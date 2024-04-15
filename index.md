@@ -28,7 +28,7 @@ Skilled in software development and architecture using languages such as C#(.Net
 
 __Boerse Stuttgart Digital__ (Frankfurt | Germany)
 
-`9/2022 - Now`
+`10/2022 - Now`
 __Senior Backend Engineer__
 
 - Design and Development of the BSDEX Trading Engine, including the Matching Engine and Customer Bookkeeping.
@@ -43,12 +43,11 @@ __FINLEX GmbH__ (Frankfurt | Germany)
 `01/2022 - 9/2022`
 __Lead Backend Developer__
 
-- Working closely with senior tech lead, head of engineering and stakeholders to understand business requirements and help translate these into technical requirements for the development team.
+- Working closely with senior tech lead, head of engineering and stakeholders to understand business requirements.
+- Translate business requirements into technical requirements for the development team.
 - Planning and documenting technical specifications for features or system design.
-- Designing, building and configuring applications to meet business process and application requirements.
-- Directing the development team in the design, development, coding, testing and debugging of applications
+- Directing the development team in the design, development, coding, testing and debugging of applications.
 - Writing testable, scalable and efficient code and leading code reviews.
-- Mentoring junior team members and ensuring they adhere to determined software quality standards.
 
 __Eatigo__ (Bangkok | Thailand)
 
@@ -56,12 +55,8 @@ __Eatigo__ (Bangkok | Thailand)
 __Senior Backend Engineer__
 
 - Leading Eatigo's a cross-functional backend team.
-- Using GO, developed microservices for reading large volume of data(millions) from MySql.
-- Good understanding of Design Patterns, Multithreading, GO containers and well versed in using channels and go-routines.
-- Worked with business users and stakeholders for gathering business requirements and converting the business requirements into user stories using JIRA.
-- Writing features wise technical documentation using Confluence and Miro.
-- Worked on CI/CD tool BuildKite to automate the build process from version control tool into testing and
-production environment.
+- Worked with business users and stakeholders for gathering business requirements and converting the business requirements into user stories.
+- Worked on CI/CD tool BuildKite to automate the build process from version control tool into testing and production environment.
 
 __Box24__ (Bangkok | Thailand)
 
@@ -72,8 +67,8 @@ Working as a Solution Architect in an IT delivery team for the whole group, resp
 
 `06/2020 - 09/2020`
 __Principal Software Developer__
+
 - Managing IOT based application architecture, integration principles and common architecture repository.
-- Delivering solution concepts, estimations and integration architecture for group- wide and local projects and programes.
 - Leading an In-House development team using Agile methodology, providing coaching to new members of the team and setting the development standards.
 
 __2C2P__ (Bangkok | Thailand)
@@ -85,7 +80,6 @@ __Software Architect__
 - Evaluate the outline and detailed design.
 - Instruct the developers to design and evaluate their design result.
 - Provide software application architecture and design training to developers.
-- Instruct the developers to handle all kinds of technical problems.
 - Responsible for the delivery of software architecture details, key technical solution documents, and outline design.
 
 __Dmoney Bangladesh Limited__ (Dhaka | Bangladesh)
@@ -121,12 +115,14 @@ __Software Engineer__
 
 `2006 - 2010`
 __CSE__
+
 - Computer Science and Engineering
 - Focus on Algorithm, Data Structure, Software Engineering.
 - [Jahangirnagar University](https://www.juniv.edu/)
 
 `2019 - 2021`
 __CSE50__
+
 - Computer Science and Programming
 - Focus on Software Engineering.
 - [Harvard University's introduction to the intellectual enterprises of computer science and the art of programming](https://cs50.harvard.edu/)
