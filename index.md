@@ -26,7 +26,7 @@ Skilled in software development and architecture using languages such as C#(.Net
 
 ## Professional Experience
 
-__Boerse Stuttgart Digital__ (Frankfurt | Germany)
+__Boerse Stuttgart Digital__ (Frankfurt; Germany)
 
 `10/2022 - Now`
 __Senior Backend Engineer__
@@ -38,7 +38,7 @@ __Senior Backend Engineer__
 - Advocate the efficacy of development processes, good development practices, and
   software quality.
 
-__FINLEX GmbH__ (Frankfurt | Germany)
+__FINLEX GmbH__ (Frankfurt; Germany)
 
 `01/2022 - 9/2022`
 __Lead Backend Developer__
@@ -49,7 +49,7 @@ __Lead Backend Developer__
 - Directing the development team in the design, development, coding, testing and debugging of applications.
 - Writing testable, scalable and efficient code and leading code reviews.
 
-__Eatigo__ (Bangkok | Thailand)
+__Eatigo__ (Bangkok; Thailand)
 
 `04/2021 - 12/2021`
 __Senior Backend Engineer__
@@ -58,7 +58,7 @@ __Senior Backend Engineer__
 - Worked with business users and stakeholders for gathering business requirements and converting the business requirements into user stories.
 - Worked on CI/CD tool BuildKite to automate the build process from version control tool into testing and production environment.
 
-__Box24__ (Bangkok | Thailand)
+__Box24__ (Bangkok; Thailand)
 
 `10/2020 - 04/2021`
 __Software Development Lead__
@@ -71,7 +71,7 @@ __Principal Software Developer__
 - Managing IOT based application architecture, integration principles and common architecture repository.
 - Leading an In-House development team using Agile methodology, providing coaching to new members of the team and setting the development standards.
 
-__2C2P__ (Bangkok | Thailand)
+__2C2P__ (Bangkok; Thailand)
 
 `02/2019 - 06/2020`
 __Software Architect__
@@ -82,7 +82,7 @@ __Software Architect__
 - Provide software application architecture and design training to developers.
 - Responsible for the delivery of software architecture details, key technical solution documents, and outline design.
 
-__Dmoney Bangladesh Limited__ (Dhaka | Bangladesh)
+__Dmoney Bangladesh Limited__ (Dhaka; Bangladesh)
 
 `02/2017 - 01/2019`
 __Senior Software Engineer__
@@ -91,7 +91,7 @@ __Senior Software Engineer__
 - Overall responsible for 4 projects at the same time by managing resources, designing the architecture and performing programming.
 - All projects are sensitive due to the security of the digital wallet. I have worked with many technologies to help users secure all personal information, and the system has to show correct data to users.
 
-__LEADS Corporation Limited__ (Dhaka | Bangladesh)
+__LEADS Corporation Limited__ (Dhaka; Bangladesh)
 
 `06/2014 - 01/2017`
 __Software Engineer__
@@ -100,7 +100,7 @@ __Software Engineer__
 - Responsible for major features which are top-up, balance inquiry, account statement, LC, Bank guarantee, utility bill and Tuition fees.
 - The main role is programming and helping the team to do peer-review.
 
-__WAN IT__ (Dhaka | Bangladesh)
+__WAN IT__ (Dhaka; Bangladesh)
 
 `10/2010 - 05/2014`
 __Software Engineer__
