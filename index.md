@@ -72,13 +72,13 @@ __Box24__ (Bangkok; Thailand)
 `10/2020 - 04/2021`
 __Software Development Lead__
 
-Working as a Solution Architect in an IT delivery team for [Nationwide Smart Parcel Locker-Singapore](https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2021/nationwide-parcel-locker-network-launched), responsible for delivery architecture for IOT based web and digital deliveries, designing new and innovating solutions in a company
+Solution Architect in an IT delivery team for [Nationwide Smart Parcel Locker-Singapore](https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2021/nationwide-parcel-locker-network-launched), responsible for delivery architecture for IOT based web and digital deliveries, designing new and innovating solutions in a company
 
 `06/2020 - 09/2020`
 __Principal Software Developer__
 
 - Managing IOT based application architecture, integration principles and common architecture repository.
-- Leading an In-House development team using Agile methodology, providing coaching to new members of the team and setting the development standards.
+- Leading an In-House development team using Agile methodology, providing coaching to new members of the team.
 
 __2C2P__ (Bangkok; Thailand)
 
@@ -97,8 +97,8 @@ __Dmoney Bangladesh Limited__ (Dhaka; Bangladesh)
 __Senior Software Engineer__
 
 - Preparing project plans and documents of architecture and design with projects about a payment and [digital wallet system](https://www.dmoney.com.bd/service.html)
-- Overall responsible for 4 projects at the same time by managing resources, designing the architecture and performing programming.
-- All projects are sensitive due to the security of the digital wallet. I have worked with many technologies to help users secure all personal information, and the system has to show correct data to users.
+- Responsible for four projects at the same time by managing resources, designing the architecture and performing programming.
+- Developed a payment processing simulator to benchmark. 
 
 __LEADS Corporation Limited__ (Dhaka; Bangladesh)
 
@@ -115,8 +115,8 @@ __WAN IT__ (Dhaka; Bangladesh)
 __Software Engineer__
 
 - Researching and developing an ERP system for the Islamic Foundation of Bangladesh.
-- Analyzing and coordinating to give advice of software systems and form a basis for the solution of information processing problems and also analyzing system specifications.
-- Translate system requirements to task specification of Accounting module, Budget module and Provident Fund module.
+- Analyzing and coordinating to give advice of software systems and form a basis for the solution of information processing problems.
+- Translating system requirements to task specification of Accounting module, Budget module and Provident Fund module.
 
 ## Education
 
@@ -138,9 +138,6 @@ __CS50__
 
 ## Technologies
 
-`Industry Knowledge`
-Banking, Payment, Wallet, Trading, Cryptocurrency, Smart Locker Network, ERP
-
 `Language`
 Go, C#, Java, C/C++
 
@@ -161,3 +158,6 @@ Kibana, Prometheus, Grafana, Sentry
 
 `Delivery Processes`
 Agile (Scrum, Kanban, Pair Programming)
+
+`Industry Knowledge`
+Banking, Payment, Wallet, Trading, Cryptocurrency, Smart Locker Network, ERP
