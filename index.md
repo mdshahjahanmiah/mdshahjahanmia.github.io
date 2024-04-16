@@ -7,7 +7,9 @@ Architect | Staff Software Engineer
 
 <div id="webaddress">
   <a href="mailto:shahjahan@smiah.dev">shahjahan@smiah.dev</a>
-| <a href="tel:+4915141990579">+49 151 41990579</a>
+| <a href="tel:+4915141990579">+49 15141990579</a>
+| <a href="https://www.linkedin.com/in/hasan-shahjahan/">linkedin</a>
+| <a href="https://medium.com/@hasanshahjahan">medium</a>
 </div>
 
 
@@ -23,6 +25,10 @@ Based in Frankfurt, Germany. Professional and elementary working proficiency in 
 
 Experienced Architect and Software Developer with a proven track record of a distributed system, architecting product and delivering innovative solutions in the financial processing domain. 
 Skilled in software development and architecture using languages such as C#(.Net Core), GO, and Java.
+
+### Area of Expertise
+Problem-Solving | Distributed Architecture | Domain Driven Design | Test Driven Development | API Development | Payment Processing | Cryptocurrency and Trading | Crypto Assets Regulation(MiCA) | PCI DSS & PA DSS | EMV® 3-D Secure 
+
 
 ## Professional Experience
 
@@ -130,7 +136,7 @@ __CSE50__
 ## Technologies
 
 `Industry Knowledge`
-Payment, Trading, Cryptocurrency, PCI DSS, PA DSS, EMV® 3-D Secure, RBA, Parcel Smart Locker Network.
+Banking, Payment, Wallet, Trading, Cryptocurrency, Smart Locker Network, ERP
 
 `Language`
 Go, C#, Java, C/C++
@@ -147,6 +153,8 @@ Kafka, RabbitMQ, NService Bus, Azure Service Bus, Azure Function
 `DevOps`
 Kubernetes, Docker
 
-## Online Presence
+`Monitoring`
+Kibana, Prometheus, Grafana
 
-[linkedin](https://www.linkedin.com/in/hasan-shahjahan/), [medium](https://medium.com/@hasanshahjahan), [instagram](https://www.instagram.com/hasan_shahjahan/)
+`Delivery Processes`
+Agile (Scrum, Kanban, Pair Programming)
