@@ -36,6 +36,10 @@ __Boerse Stuttgart Digital__ (Frankfurt; Germany)
 
 `10/2022 - Now`
 __Senior Backend Engineer__
+<div id="webaddress">
+  <a href="https://go.dev/">Golang</a>
+| <a href="https://www.boerse-stuttgart.de/">Trading Engine</a>
+</div>
 
 - Developed [FIX Gateway](https://docs.bsdex.de/#section/fix-api) from scratch with [FIX.4.4](https://www.fixtrading.org/standards/fix-4-4/) protocol including order messages and market data messages.
 - Adapting existing systems to comply with [Markets Crypto Assets Regulation (MiCA)](https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica).
@@ -51,6 +55,10 @@ __FINLEX GmbH__ (Frankfurt; Germany)
 
 `01/2022 - 9/2022`
 __Lead Backend Developer__
+<div id="webaddress">
+  <a href="https://learn.microsoft.com/de-de/dotnet/core/whats-new/dotnet-6">.Net 6</a>
+| <a href="https://finlex.io/en/">Payment</a>
+</div>
 
 - Working closely with senior tech lead, head of engineering and stakeholders to understand business requirements.
 - Translate business requirements into technical requirements for the development team.
@@ -62,6 +70,10 @@ __Eatigo__ (Bangkok; Thailand)
 
 `04/2021 - 12/2021`
 __Senior Backend Engineer__
+<div id="webaddress">
+  <a href="https://go.dev/">Golang</a>
+| <a href="https://eatigo.com/">Payment</a>
+</div>
 
 - Leading [Eatigo's](https://eatigo.com/) a cross-functional backend team focusing on a distributed restaurant reservations.
 - Worked with business users and stakeholders for gathering business requirements and converting the business requirements into user stories.
@@ -71,6 +83,10 @@ __Box24__ (Bangkok; Thailand)
 
 `10/2020 - 04/2021`
 __Software Development Lead__
+<div id="webaddress">
+  <a href="https://learn.microsoft.com/de-de/dotnet/core/whats-new/dotnet-core-3-1">.Net Core</a>
+| <a href="https://eatigo.com/">Smart Parcel Locker</a>
+</div>
 
 Solution Architect in an IT delivery team for [Nationwide Smart Parcel Locker-Singapore](https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2021/nationwide-parcel-locker-network-launched), responsible for delivery architecture for IOT based web and digital deliveries, designing new and innovating solutions in a company
 
@@ -84,6 +100,10 @@ __2C2P__ (Bangkok; Thailand)
 
 `02/2019 - 06/2020`
 __Software Architect__
+<div id="webaddress">
+  <a href="https://learn.microsoft.com/de-de/dotnet/core/whats-new/dotnet-core-3-1">.Net Core</a>
+| <a href="https://developer.2c2p.com/docs/direct-api-method-3ds-card-payment">Financial Services</a>
+</div>
 
 - Responsible for the domain architecture design for [EMV® 3-D Secure](https://developer.2c2p.com/docs/direct-api-method-3ds-card-payment)
 - Evaluate the outline and detailed design.
@@ -95,6 +115,10 @@ __Dmoney Bangladesh Limited__ (Dhaka; Bangladesh)
 
 `02/2017 - 01/2019`
 __Senior Software Engineer__
+<div id="webaddress">
+  <a href="https://learn.microsoft.com/de-de/aspnet/mvc/overview/getting-started/introduction/getting-started">ASP .Net MVC</a>
+| <a href="https://www.dmoney.com.bd/service.html">Financial Services</a>
+</div>
 
 - Preparing project plans and documents of architecture and design with projects about a payment and [digital wallet system](https://www.dmoney.com.bd/service.html)
 - Responsible for four projects at the same time by managing resources, designing the architecture and performing programming.
@@ -104,6 +128,10 @@ __LEADS Corporation Limited__ (Dhaka; Bangladesh)
 
 `06/2014 - 01/2017`
 __Software Engineer__
+<div id="webaddress">
+  <a href="https://learn.microsoft.com/en-us/dotnet/framework/get-started/">.Net Framework</a>
+| <a href="https://www.dmoney.com.bd/service.html">Core Banking</a>
+</div>
 
 - Worked with internet banking and mobile banking service of a [core banking system](https://leads.com.bd/).
 - Responsible for major features which are top-up, balance inquiry, account statement, LC, Bank guarantee, utility bill and Tuition fees.
@@ -113,6 +141,10 @@ __WAN IT__ (Dhaka; Bangladesh)
 
 `10/2010 - 05/2014`
 __Software Engineer__
+<div id="webaddress">
+  <a href="https://learn.microsoft.com/en-us/dotnet/framework/get-started/">Web Form</a>
+| <a href="https://islamicfoundation.gov.bd/">ERP</a>
+</div>
 
 - Researching and developing an ERP system for the Islamic Foundation of Bangladesh.
 - Analyzing and coordinating to give advice of software systems and form a basis for the solution of information processing problems.
