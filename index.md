@@ -24,10 +24,10 @@ Based in Frankfurt, Germany. Professional and elementary working proficiency in 
 
 ### Summary
 
-Accomplished Architect and Software Developer adept in designing distributed systems, crafting product architecture, and delivering cutting-edge solutions within the trading and financial processing sector. Proficient in software development and architecture utilizing C# (.Net Core), GO, and Java languages.
+Accomplished Architect and Software Developer adept in designing distributed systems, crafting product architecture, and delivering cutting-edge solutions within the trading and financial processing sector. Proficient in software development and architecture utilizing C# (.Net Core), and Golang languages.
 
 ### Area of Expertise
-Problem-Solving | Distributed Architecture | Domain Driven Design | Test Driven Development | API Development | Payment Processing | Cryptocurrency and Trading | Crypto Assets Regulation(MiCA) | PCI DSS & PA DSS | EMV® 3-D Secure 
+Problem-Solving | Distributed Architecture | Domain Driven Design | Test Driven Development | API Development (Web API, WCF, gRPC) | Payment Processing | Cryptocurrency and Trading | Crypto Assets Regulation(MiCA) | PCI DSS & PA DSS | EMV® 3-D Secure 
 
 
 ## Professional Experience
@@ -171,7 +171,7 @@ __CS50__
 ## Technologies
 
 `Language`
-Go, C#, Java, C/C++
+Golang, C#, C/C++
 
 `Database`
 PostgreSQL, SQLite, MySQL, MSSQL, Oracle, MongoDB, Redis
@@ -179,11 +179,14 @@ PostgreSQL, SQLite, MySQL, MSSQL, Oracle, MongoDB, Redis
 `Message Queue`
 Kafka, RabbitMQ, NService Bus, Azure Service Bus, Azure Function
 
-`Web Framework`
-.Net Core, ASP.Net MVC, Web Form, Windows Form, go-chi
+`Framework`
+gRPC,.Net,.Net Core, ASP.Net MVC,.Net Framework, Web & Windows Form, go-chi
 
 `DevOps`
 Kubernetes, Docker
+
+`Version Control`
+GitHub, GitLab, BitBucket
 
 `Monitoring`
 Kibana, Prometheus, Grafana, Sentry
@@ -191,5 +194,5 @@ Kibana, Prometheus, Grafana, Sentry
 `Delivery Processes`
 Agile (Scrum, Kanban, Pair Programming)
 
-`Industry Knowledge`
+`Industry`
 Banking, Payment, Wallet, Trading, Cryptocurrency, Smart Locker Network, ERP
