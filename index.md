@@ -85,7 +85,7 @@ __Box24__ (Bangkok; Thailand)
 __Software Development Lead__
 <div id="webaddress">
   <a href="https://learn.microsoft.com/de-de/dotnet/core/whats-new/dotnet-core-3-1">.Net Core</a>
-| <a href="https://eatigo.com/">Smart Parcel Locker</a>
+| <a href="https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2021/nationwide-parcel-locker-network-launched">Smart Parcel Locker</a>
 </div>
 
 Solution Architect in an IT delivery team for [Nationwide Smart Parcel Locker-Singapore](https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2021/nationwide-parcel-locker-network-launched), responsible for delivery architecture for IOT based web and digital deliveries, designing new and innovating solutions in a company
