@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Miah Md Shahjahan</title>
+        <link>https://smiah.dev/</link>
+        <description>Recent content on Miah Md Shahjahan</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Tue, 23 Apr 2024 08:52:47 +0000</lastBuildDate><atom:link href="https://smiah.dev/index.xml" rel="self" type="application/rss+xml" />
+
+        <item>
+            <title>Understanding Distributed System</title>
+            <link>https://smiah.dev/posts/understanding-distributed-system/</link>
+            <pubDate>Sat, 27 Jan 2024 00:00:00 +0000</pubDate>
+
+            <guid>https://smiah.dev/posts/understanding-distributed-system/</guid>
+            <description>Preface Most engineering books or blogs deep dive right into the heart of some complex topics around distributed systems which can overwhelm you, if you are not experienced enough. A common recommendation is Martin Kleppmann's Designing Data-Intensive Applications, but its concepts may be too advanced for someone new to distributed systms. Even seasoned professionals can find very complex such as consistency models and distributed transactions algorithms.
+                However, this article, along with its sub-articles on distributed systems, will give you a complete and solid understanding of distributed system. While I am writing this article, I am quite experienced at scalable systems.</description>
+        </item>
+
+        <item>
+            <title>About</title>
+            <link>https://smiah.dev/about/</link>
+            <pubDate>Sat, 27 Jan 2024 00:00:00 +0000</pubDate>
+
+            <guid>https://smiah.dev/about/</guid>
+            <description>Software Engineering by Miah Md Shahjahan
+                Author&amp;rsquo;s Bio Miah Md Shahjahan is Senior Backend Engineer @Boerse Stuttgart Digital. Responsible for the Matching Engine of BSDEX. Based in Frankfurt, Germany. Professional and elementary working proficiency in English and German respectively. Accomplished Architect and Software Developer adept in designing distributed systems, crafting product architecture, and delivering cutting-edge solutions within the trading and financial processing sector. Proficient in software development and architecture utilizing C# (.Net Core), and Golang languages.</description>
+        </item>
+
+    </channel>
+</rss>
