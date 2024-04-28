@@ -51,59 +51,6 @@
             }
         </style>
     </noscript>
-    <script type=application/ld+json>
-        {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Posts",
-                    "item": "https://smiah.dev/posts/"
-                },
-                {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Understanding Data as a Product (DaaS)",
-                    "item": "https://smiah.dev/posts/understanding-data-as-a-product/"
-                }
-            ]
-        }</script>
-    <script type=application/ld+json>
-        {
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            "headline": "Finched Rails CLI makes it a breeze to try out Rails withough installing anything but Finch",
-            "name": "Finched Rails CLI makes it a breeze to try out Rails withough installing anything but Finch",
-            "description": "Preface In this article, I’d like to introduces Finched Rails CLI that makes it a breeze to try out Rails without installing anything but Finch. Finch is an OSS CLI for building, running, and publishing Linux containers create by AWS. As long as you have Finch, you can quick start a Rails app only by copying and pasting a few commands. Finched Rails CLI is a fork of Docked Rails CLI and simply a Finch version of it.",
-            "keywords": [
-                "finch",
-                "docker",
-                "rails"
-            ],
-            "articleBody": " Preface In this article, I’d like to introduces Finched Rails CLI that makes it a breeze to try out Rails without installing anything but Finch. Finch is an OSS CLI for building, running, and publishing Linux containers create by AWS. As long as you have Finch, you can quick start a Rails app only by copying and pasting a few commands. Finched Rails CLI is a fork of Docked Rails CLI and simply a Finch version of it.\nNOTE: I'm constantly delighted to receive feedback. Whether you spot an error, have a suggestion for improvement, or just want to share your thoughts, please don't hesitate to comment/reach out. I truly value connecting with readers!\nWhy I created Finched Rails CLI? It’s very simple. I don’t currenlty use Docker Desktop for managing Linux containers on my Desktop for its complexity and high resource consuming resason. I use Finch instead for it.\nQuickstart Please install Finch if you don’t have on your desktop\nbrew install --cask finch Then copy and paste these below into your terminal:\nfinch volume create ruby-bundle-cache alias finched='finch run --rm -it -v ${PWD}:/rails -v ruby-bundle-cache:/bundle -p 3000:3000 --entrypoint \"\" ghcr.io/yokawasa/rails/cli' Now you’re ready to start develop Rails app using finched, the alias you’ve just created.\nLet’s create a Rails project named weblog and start the Rails server as follows:\nfinched rails new weblog cd weblog finched rails generate scaffold post title:string body:text finched rails db:migrate finched rails server Your Rails app is running, and you can check it on http://localhost:3000/posts.\nopen http://localhost:3000/posts That’s it!\nEnjoy developing Rails app with Finch!\n",
-            "wordCount": "252",
-            "inLanguage": "en",
-            "datePublished": "2023-01-28T01:00:00Z",
-            "dateModified": "2023-01-28T01:00:00Z",
-            "author": {
-                "@type": "Person",
-                "name": "Miah Md Shahjahan"
-            },
-            "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://smiah.dev/posts/understanding-data-as-a-product/"
-            },
-            "publisher": {
-                "@type": "Organization",
-                "name": "explore",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "https://smiah.dev/profile.png"
-                }
-            }
-        }</script>
 </head>
 <body id=top>
 <script>
