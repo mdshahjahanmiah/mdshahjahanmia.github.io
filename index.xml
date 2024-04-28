@@ -9,12 +9,12 @@
     <lastBuildDate>Tue, 23 Apr 2024 08:52:47 +0000</lastBuildDate><atom:link href="https://smiah.dev/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Finched Rails CLI makes it a breeze to try out Rails withough installing anything but Finch</title>
-      <link>https://smiah.dev/posts/finched-rails-cli/</link>
-      <pubDate>Sat, 28 Jan 2023 00:00:00 +0000</pubDate>
+      <title>Understanding Distributed System</title>
+      <link>https://smiah.dev/posts/understanding-distributed-system/</link>
+      <pubDate>Sat, 27 April 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://smiah.dev/posts/finched-rails-cli/</guid>
-      <description>Preface In this article, I’d like to introduces Finched Rails CLI that makes it a breeze to try out Rails without installing anything but Finch. Finch is an OSS CLI for building, running, and publishing Linux containers create by AWS. As long as you have Finch, you can quick start a Rails app only by copying and pasting a few commands. Finched Rails CLI is a fork of Docked Rails CLI and simply a Finch version of it.</description>
+      <guid>https://smiah.dev/posts/understanding-distributed-system/</guid>
+      <description>Most engineering books or blogs deep dive right into the heart of some complex topics around distributed systems which can overwhelm you, if you are not experienced enough.</description>
     </item>
     
     <item>
