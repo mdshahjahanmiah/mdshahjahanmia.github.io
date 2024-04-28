@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>explore</title>
-    <link>https://smiah.dev/</link>
-    <description>Recent content on explore</description>
+    <title>Posts on explore</title>
+    <link>https://smiah.dev/posts/</link>
+    <description>Recent content in Posts on explore</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 23 Apr 2024 08:52:47 +0000</lastBuildDate><atom:link href="https://smiah.dev/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Sat, 28 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://smiah.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Finched Rails CLI makes it a breeze to try out Rails withough installing anything but Finch</title>
       <link>https://smiah.dev/posts/finched-rails-cli/</link>
@@ -15,16 +14,6 @@
       
       <guid>https://smiah.dev/posts/finched-rails-cli/</guid>
       <description>Preface In this article, I’d like to introduces Finched Rails CLI that makes it a breeze to try out Rails without installing anything but Finch. Finch is an OSS CLI for building, running, and publishing Linux containers create by AWS. As long as you have Finch, you can quick start a Rails app only by copying and pasting a few commands. Finched Rails CLI is a fork of Docked Rails CLI and simply a Finch version of it.</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://smiah.dev/about/</link>
-      <pubDate>Tue, 24 Jan 2023 23:12:10 +0900</pubDate>
-      
-      <guid>https://smiah.dev/about/</guid>
-      <description>Random notes by Yoichi Kawasaki
-Author&amp;rsquo;s Bio Yoichi Kawasaki (川崎 庸市 in Japanese) is currently a tech lead site reliability engineer at ZOZO, inc. He is responsible for leading ZOZOTOWN microservice platform SRE team and delivering service reliability. Prior to joining ZOZO, inc., he worked as a solutions architect at Microsoft and responsible for leading technical engagements to win based on solutions leveraging the Microsoft Azure and OSS with a specialization in cloud native application architecture and development.</description>
     </item>
     
     <item>
@@ -36,16 +25,6 @@ Author&amp;rsquo;s Bio Yoichi Kawasaki (川崎 庸市 in Japanese) is currently 
       <description>I presented on Apri 28th (April 29th JST): &amp;ldquo;Accelerating ZOZOTOWN Modernization with Istio&amp;rdquo; at IstioCon 2022. It was an awesome experience for me to present for the global technology conference like IsitoCon.
 ⛵️Istio is a synonym of acceleration &amp;amp; modernization. Register for #IstioCon to learn about &amp;quot;Accelerating ZOZOTOWN Modernization process with #Istio&amp;quot; by @yokawasa 🤓👉 https://t.co/SWyXAsfqcO #Istio #CloudNative #ServiceMesh pic.twitter.com/BNyeLsAVHI
 &amp;mdash; Istio (@IstioMesh) April 25, 2022 You can find the slides for my presentation: https://speakerdeck.</description>
-    </item>
-    
-    <item>
-      <title>Works</title>
-      <link>https://smiah.dev/works/</link>
-      <pubDate>Sat, 12 Mar 2022 23:12:10 +0900</pubDate>
-      
-      <guid>https://smiah.dev/works/</guid>
-      <description>Recent Publications Publication Name Publish Day Software Design 2022年2月号 第2特集GitHub Actionsで簡単・快適CI/CD (amazon) Jan 18, 2022 日経コンピュータ: 負荷に合わせて10秒単位でサーバー増減、ZOZOのAWSコンテナ活用法 Dec 1, 2020 プログラマーのためのVisual Studio Codeの教科書 (amazon) April 29, 2020 ZOZO TECH BOOK VOL.1 - 第3章 速習GitHub Actions 〜 明日からの充実GitHub自動化ライフのための凝縮ポイント 〜 April, 2020 Recent Talks Past talks and presentations by @yokawasa (twitter:@yokawasa)
-Session Event Day Accelerating ZOZOTOWN Modernization with Istio (IstioCon 2022) April 29, 2022 ZOZOTOWNマイクロサービス基盤のService Mesh アーキテクチャへの移行 ( ZOZO Tech Meetup〜ZOZOTOWNアーキテクトナイト〜) Sept 10, 2021 Toil撲滅活動に終わりは来ない (NoOps Meetup Online #0) Dec 16, 2020 ZOZOTOWNのクラウド活用戦略 (Tech-on Meetup Online#03) Oct 5, 2020 ZOZOTOWNのクラウド活用戦略 (ヤマトHD × ZOZOテクノロジーズ事例勉強会) Sept 28, 2020 速習GitHub Actions 〜 明日からの充実GitHub自動化ライフのための凝縮ポイント April 28, 2020 我々はZOZOTOWNのクラウドジャーニーを通じて何を学んだのか？ (Developers Summit 2020) Feb 13, 2020 今Serverlessが面白いわけ - DevLOVE感謝版 (DevLOVE v2019.</description>
     </item>
     
     <item>
