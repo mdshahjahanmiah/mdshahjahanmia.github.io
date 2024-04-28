@@ -23,6 +23,3 @@ My recent works and talks can be found at [this page](/works)
 - Profile on [LinkedIn](https://www.linkedin.com/in/hasan-shahjahan/)
 - Articles on this [Blog](/posts)
 - Email: `shahjahan@smiah.dev`
-
-
-
