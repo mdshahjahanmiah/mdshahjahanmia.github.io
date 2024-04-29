@@ -142,6 +142,26 @@
                         </li>
                         <li>
                             <a href=#necessarytounderstand aria-label=necessarytounderstand>What information is necessary to understand?</a>
+                            <ul>
+                                <li>
+                                    <a href="#communication" aria-label="Communication">Communication</a>
+                                </li>
+                                <li>
+                                    <a href="#coordination" aria-label="Coordination">Coordination</a>
+                                </li>
+                                <li>
+                                    <a href="#scalability" aria-label="Scalability">Scalability</a>
+                                </li>
+                                <li>
+                                    <a href="#resiliency" aria-label="Resiliency">Resiliency</a>
+                                </li>
+                                <li>
+                                    <a href="#maintainability" aria-label="Maintainability">Maintainability</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href=#conclusion aria-label=Conclusion>Conclusion</a>
                         </li>
                     </ul>
                 </div>
@@ -161,12 +181,7 @@
 
                 However, this article, along with its sub-articles on distributed systems, will give you a complete and solid understanding of distributed system. While I am writing this article, I am quite experienced at scalable systems.
             </p>
-            <blockquote>
-                <p>
-                    NOTE: I'm constantly delighted to receive feedback. Whether you spot an error, have a suggestion for improvement, or just want to share your thoughts, please don't hesitate to comment/reach out. I truly value connecting with readers!
-                </p>
-            </blockquote>
-            <h2 id=#necessarytounderstand>
+            <h2 id=necessarytounderstand>
                 What information is necessary to understand?<a hidden class=anchor aria-hidden=true href=#necessarytounderstand>#</a>
             </h2>
             <p>Almost the exact order we follow when creating a new distributed application. This article will be structed with five sections to understand the complete life cycle of distributed sytems ordering with considering one of the most interesting books I have found on this topic is Understanding Distributed Systems.</p>
@@ -177,42 +192,53 @@
                 <li>Resiliency</li>
                 <li>Maintainability</li>
             </ul>
-            <h3 id=#communication>
+            <h3 id=communication>
                 Communication
             </h3>
             <p>
                 Communication is important to understanding how distributed systems work or why they are even needed at a basic level. They are essentially separated nodes that are responsible for sharing information over the network. It's essential to understand the mechanics of network communication, including the concept of a network stack and its operations at each level. With this understanding, we can begin constructing systems that effectively communicate over networks.
             </p>
-            <h3 id=#coordination>
+            <h3 id=coordination>
                 Coordination
             </h3>
             <p>
                 As we expand our system with additional nodes, coordinating communication becomes essential. In this segment, I'll detail methods for detecting failures within our system, managing replications, and implementing algorithms for selecting primary nodes, including various consensus algorithms.
             </p>
-            <h3 id=#scalability>
+            <h3 id=scalability>
                 Scalability
             </h3>
             <p>
                 When we are able to coordinate well over communication, it comes now to think how we can perform transactions over a distributed system. This is arguably the most important part of building distributed system to handle scale. I will explain how pattern works to achieving scalability like microservices, apis, messaging, partioning, replication, caching, and load balancing.
             </p>
-            <h3 id=#resiliency>
+            <h3 id=resiliency>
                 Resiliency
             </h3>
             <p>
                 A distributed system that can handle scale but is unreliable is not any good. That's why understanding resiliency in distributed system is very important. We need to understand the ins and outs of distributed systems like single points of failures, circuit breakers, retry patterns, rate limiting. Basically what I refer to as understanding downstream and upstream resiliency of distributed systems. We also need to consider database separation in distributed systems and integrating multiple databases seamlessly in distributed systems, and much more if necessary to make it resilient.
             </p>
-            <h3 id=#maintainability>
+            <h3 id=maintainability>
                 Maintainability
             </h3>
             <p>
                 Maintaining a robust distributed system poses significant challenges. It requires comprehensive testing such as load and stress testing, chaos engineering and operational procedures, covering various testing methods specific to distributed systems. Additionally, it involves understanding continuous integration and delivery practices, along with implementing crucial monitoring mechanisms essential for distributed applications.
             </p>
+            <h2 id=conclusion>
+                Conclusion<a hidden class=anchor aria-hidden=true href=#conclusion>#</a>
+            </h2>
+            <p>
+                To sum up, I aim to offer sufficient insight into distributed systems, providing a solid understanding and a foundation for further exploration in the field. Additionally, I'll periodically include complete coding examples with system architecture and a GitHub link, utilizing a modern programming language and its associated datastore.
+            </p>
+            <blockquote>
+                <p>
+                    <i>NOTE: I'm constantly delighted to receive feedback. Whether you spot an error, have a suggestion for improvement, or just want to share your thoughts, please don't hesitate to comment/reach out. I truly value connecting with readers!</i>
+                </p>
+            </blockquote>
             <footer class=post-footer>
                 <nav class=paginav>
-                    <a class=next href=https://smiah.dev/posts/istiocon2022/>
+                    <a class=next href=https://smiah.dev/posts/understanding-chaos-engineering/>
                         <span class=title>Next »</span>
                         <br>
-                        <span>Understanding Communication of Distributed Systems</span>
+                        <span>Understanding Chaos Engineering</span>
                     </a></nav>
                 <div class=share-buttons>
                     <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Distributed System on twitter" href="https://twitter.com/intent/tweet/?text=Finched%20Rails%20CLI%20makes%20it%20a%20breeze%20to%20try%20out%20Rails%20withough%20installing%20anything%20but%20Finch&amp;url=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-distributed-system%2f&amp;hashtags=finch%2cdocker%2crails">

@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang=en dir=auto>
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name=robots content="index, follow">
+    <title>Understanding Chaos Engineering | explore</title>
+    <link rel=canonical href=https://smiah.dev/posts/understanding-chaos-engineering/>
+    <link crossorigin=anonymous href=https://smiah.dev/assets/css/stylesheet.6a98292fb8fa8cf0f3ba4042d4b75515c04267550f3ad49ff6271b5af9562443.css integrity="sha256-apgpL7j6jPDzukBC1LdVFcBCZ1UPOtSf9icbWvlWJEM=" rel="preload stylesheet" as=style>
+    <script defer crossorigin=anonymous src=https://smiah.dev/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+    <link rel=icon href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=16x16 href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=32x32 href=https://smiah.dev/profile.png>
+    <link rel=apple-touch-icon href=https://smiah.dev/profile.png>
+    <link rel=mask-icon href=https://smiah.dev/profile.png>
+    <meta name=theme-color content="#2e2e33">
+    <meta name=msapplication-TileColor content="#2e2e33">
+    <link rel=alternate hreflang=en href=https://smiah.dev/posts/understanding-chaos-engineering/>
+    <noscript>
+        <style>
+            #theme-toggle,.top-link {
+                display: none
+            }
+        </style>
+        <style>
+            @media(prefers-color-scheme: dark) {
+                :root {
+                    --theme:rgb(29, 30, 32);
+                    --entry: rgb(46, 46, 51);
+                    --primary: rgb(218, 218, 219);
+                    --secondary: rgb(155, 156, 157);
+                    --tertiary: rgb(65, 66, 68);
+                    --content: rgb(196, 196, 197);
+                    --hljs-bg: rgb(46, 46, 51);
+                    --code-bg: rgb(55, 56, 62);
+                    --border: rgb(51, 51, 51)
+                }
+
+                .list {
+                    background: var(--theme)
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-track {
+                    background: 0 0
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-thumb {
+                    border-color: var(--theme)
+                }
+            }
+        </style>
+    </noscript>
+    <script type=application/ld+json>
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Posts",
+                    "item": "https://smiah.dev/posts/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Understanding Chaos Engineering",
+                    "item": "https://smiah.dev/posts/understanding-chaos-engineering/"
+                }
+            ]
+        }</script>
+</head>
+<body id=top>
+<script>
+    localStorage.getItem("pref-theme") === "dark" ? document.body.classList.add("dark") : localStorage.getItem("pref-theme") === "light" ? document.body.classList.remove("dark") : window.matchMedia("(prefers-color-scheme: dark)").matches && document.body.classList.add("dark")
+</script>
+<header class=header>
+    <nav class=nav>
+        <div class=logo>
+            <a href=https://smiah.dev/ accesskey=h title="explore (Alt + H)">explore</a>
+            <div class=logo-switches>
+                <button id=theme-toggle accesskey=t title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <ul class=lang-switch>
+                    <li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id=menu>
+            <li>
+                <a href=https://smiah.dev/about title=about>
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/posts title=posts>
+                    <span>posts</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/works title=works>
+                    <span>works</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/search/ title="search (Alt + /)" accesskey=/>
+                <span>search</span>
+                </a></li></ul></nav></header>
+<main class=main>
+    <article class=post-single>
+        <header class=post-header>
+            <div class=breadcrumbs>
+                <a href=https://smiah.dev/>Home</a>
+                &nbsp;»&nbsp;<a href=https://smiah.dev/posts/>Posts</a>
+            </div>
+            <h1 class=post-title>Understanding Chaos Engineering</h1>
+        </header>
+        <div class=toc>
+            <details open>
+                <summary accesskey=c title="(Alt + C)">
+                    <span class=details>Table of Contents</span>
+                </summary>
+                <div class=inner>
+                    <ul>
+                        <li>
+                            <a href=#preface aria-label=Preface>Preface</a>
+                        </li>
+
+                        <li>
+                            <a href=#whatischaosengineering aria-label="What is Chaos Engineering?">What is Chaos Engineering?</a>
+                            <ul>
+                                <li>
+                                    <a href="#whywouldwebreakthingsonpurpose" aria-label="Why would we break things on purpose?">Why would we break things on purpose?</a>
+                                </li>
+                                <li>
+                                    <a href="#whatistheroleofchaosengineeringindistributedsystems" aria-label="What's the role of Chaos Engineering in distributed systems?">What's the role of Chaos Engineering in distributed systems?</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href=#benefitsofchaosengineering aria-label="Benefits of Chaos Engineering">Benefits of Chaos Engineering</a>
+                            <ul>
+                                <li>
+                                    <a href=#organizationsthatbenefitfromchaosengineering aria-label="Organizations that benefit from Chaos Engineering">Organizations that benefit from Chaos Engineering</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href=#typesofchaosengineeringexperiments aria-label="Types of Chaos Engineering Experiments">Types of Chaos Engineering Experiments</a>
+                        </li>
+                        <li>
+                            <a href=#principlesofchaosengineering aria-label="Principles of Chaos Engineering">Principles of Chaos Engineering</a>
+                        </li>
+
+                        <li>
+                            <a href="#chaosengineeringtools" aria-label="Chaos Engineering Tools">Chaos Engineering Tools</a>
+                            <ul>
+                                <li>
+                                    <a href="#chaosmesh" aria-label="Chaos Mesh">Chaos Mesh</a>
+                                </li>
+                                <li>
+                                    <a href="#chaosmonkey" aria-label="Chaos Monkey">Chaos Monkey</a>
+                                </li>
+                                <li>
+                                    <a href="#gremlin" aria-label="Gremlin">Gremlin</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href=#conclusion aria-label="Conclusion">Conclusion</a>
+                        </li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+        <div class=post-content>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-chaos-engineering.png alt>
+            </p>
+            <h2 id=preface>
+                Preface
+                <a hidden class=anchor aria-hidden=true href=#preface>#</a>
+            </h2>
+            <p>
+                Enterprise software systems have become more sophisticated, relying heavily on distributed components like cloud services and microservices. Chaos engineering plays a vital role today in creating resilient distributed systems.
+                <br>
+                </br>
+                This article walks you through the concept of chaos engineering, its importance, and its core principles. Additionally, I’ll explain the tools widely used today for chaos engineering and delve into the benefits and challenges associated with chaos engineering practices.
+            </p>
+
+            <h2 id=whatischaosengineering>
+                What is Chaos Engineering?
+                <a hidden class=anchor aria-hidden=true href=#whatischaosengineering>#</a>
+            </h2>
+            <p>
+                Chaos engineering is the practice of intentionally injecting faults into a system to test its resilience. The goal is to identify potential failure points and correct them before they cause an actual outage or other disruption. By proactively testing how a system responds under stress, we can identify and fix failures before they end up in the news. Chaos engineering can significantly increase confidence in the resilience of distributed systems, particularly in unforeseen conditions. We literally “break things on purpose” to learn how to build more resilient systems.
+            </p>
+            <h3 id=whywouldwebreakthingsonpurpose>
+                Why would we break things on purpose?
+            </h3>
+            <p>
+                Think of a vaccine or a flu shot for instance COVID 19, where we inject ourselves with a small amount of a potentially harmful foreign body in order to build resistance and prevent illness. Chaos Engineering is a tool we use to build such an immunity in our technical systems by injecting harm such as latency, CPU failure, or network black holes in order to find and mitigate potential weaknesses.
+                According to the chaos engineering report, the most common outcomes of Chaos Engineering are increased availability, lower mean time to resolution, lower mean time to detection fewer bugs shipped to product, and fewer outages. Teams who frequently run Chaos Engineering experiments are more likely to have >99.9% availability.
+            </p>
+            <h3 id=whatistheroleofchaosengineeringindistributedsystems>
+                What's the role of Chaos Engineering in distributed systems?
+            </h3>
+            <p>
+                Distributed systems are inherently more complex than monolithic systems, so it’s hard to predict all the ways they might fail. The eight fallacies of distributed systems that programmers new to distributed applications invariably make.
+            </p>
+
+            <h4 id=fallaciesofdistributedsystems>
+                Fallacies of Distributed Systems:
+            </h4>
+            <p>
+                Distributed systems are inherently more complex than monolithic systems, so it’s hard to predict all the ways they might fail. The eight fallacies of distributed systems that programmers new to distributed applications invariably make.
+            </p>
+
+            <ul>
+                <li>The network is reliable</li>
+                <li>Latency is zero</li>
+                <li>Bandwidth is infinite</li>
+                <li>The network is secure</li>
+                <li>Topology doesn't change</li>
+                <li>There is one administrator</li>
+                <li>Transport cost is zero</li>
+                <li>The network is homogeneous</li>
+            </ul>
+
+            <p>
+            Many of these fallacies drive the design of Chaos Engineering experiments such as “packet-loss attacks” and “latency attacks”. For example, network outages can cause a range of failures for applications that severely impact customers. Applications may stall while they wait endlessly for a packet. Applications may permanently consume memory or other system resources like Linux. And even after a network outage has passed, applications may fail to retry stalled operations, or may retry too aggressively. Applications may even require a manual restart. Each of these examples need to be tested and prepared for.
+            </p>
+
+            <h2 id=benefitsofchaosengineering>
+                Benefits of Chaos Engineering
+                <a hidden class=anchor aria-hidden=true href=#benefitsofchaosengineering>#</a>
+            </h2>
+            <ul>
+                <li>Customer: The increased availability and durability of service means no outages disrupt their day-to-day lives.</li>
+                <li>Business: Chaos Engineering can help prevent extremely large losses in revenue and maintenance costs, create happier and more engaged engineers, improve in on-call training for engineering teams, and improve the incident management for the entire company.</li>
+                <li>Technical: The insights from chaos experiments can mean a reduction in incidents, reduction in on-call burden, increased understanding of system failure modes, improved system design, faster mean time to detection for incident management. </li>
+            </ul>
+
+            <h3 id=organizationsthatbenefitfromchaosengineering>
+                Organizations that benefit from Chaos Engineering
+            </h3>
+            <p>
+                Top tech organizations such as Amazon, Netflix, Microsoft, and National Australia Bank utilize chaos engineering to achieve a better understanding of internal systematic behavior and flaws. Chaos engineering can also help organizations to enhance the velocity of their continuous integration and continuous delivery (CI/CD) pipelines. Incorporating chaos engineering into CI/CD enables organizations to automate continuous experiments while controlling their potential impact.
+            </p>
+
+            <h2 id=typesofchaosengineeringexperiments>
+                Types of Chaos Engineering Experiments
+                <a hidden class=anchor aria-hidden=true href=#typesofchaosengineeringexperiments>#</a>
+            </h2>
+            <p>
+                DevOps teams have several options for running chaos engineering experiments to test various system processes.
+            </p>
+            <ul>
+                <li>Latency injection: DevOps teams intentionally create scenarios that emulate a slow or failing network connection. This includes the introduction of network delays or slower response times.</li>
+                <li>Fault injection: This involves purposefully introducing errors into the system to determine how it affects other dependent systems and whether it interrupts services. Examples of fault injections include inducing disk failures, terminating processes, shutting down a host or introducing power or temperature increases. Fault injections can help organizations identify any single points of failure, which can cause the entire system to fail if something happens to them.</li>
+                <li>Load generation: This relates to intentionally stressing the system by sending significant traffic levels well beyond normal operations. This helps the site reliability engineers (SREs) to understand any bottlenecks in the system, which in turn allows them to build more scalable systems. </li>
+                <li>Canary testing: This involves releasing a new product or feature to a small group of users. That way, any glitches or bugs will only affect a percentage of visitors, leaving the rest of the audience to access the existing website experience.</li>
+            </ul>
+
+            <h2 id=principlesofchaosengineering>
+                Principles of Chaos Engineering
+                <a hidden class=anchor aria-hidden=true href=#principlesofchaosengineering>#</a>
+            </h2>
+            <p>
+                Chaos engineering defines general principles to follow when designing and conducting experiments.
+            </p>
+            <h3 id=definethesystemsteadystate>
+                Define the system’s steady-state
+            </h3>
+            <p>
+                How does the system behave when it is steady? These definitions set the baseline for the experiments. The definition of steady state includes measurable outcomes defined using key performance indicators. Some examples of such KPIs are:
+                <li>“The system latency is below 300ms.”</li>
+                <li>“The error rate is below 3%.”</li>
+            </p>
+            <h3 id=createthehypothesis>
+                Create the hypothesis
+            </h3>
+            <p>
+                A chaos experiment needs a hypothesis on how the system will behave if a chaotic situation arises in a production environment. It should be based on the established baselines and knowledge of the behavior and weaknesses of the system. When creating a hypothesis, ask ‘what if’ questions or create statements on how the system should behave.
+                <br>
+                </br>
+                Examples include:
+                <li>“If we increase the load by 1x, the system can handle it without issue.”</li>
+                <li>“An increase in request latency will not impact the user experience.” </li>
+                <li>“If the primary database is down, the system will automatically failover to the secondary database with minimum downtime.”</li>
+            </p>
+            <h3 id=experimentbychangingrealworldconditions>
+                Experiment by changing real-world conditions
+            </h3>
+            <p>
+                Consider real-world scenarios or events that can deviate from the steady state.
+                <br>
+                </br>
+                For example:
+                <li>Events resulting in hardware and software failures.</li>
+                <li>High-network latency and error rates.</li>
+                <li>Network traffic spikes. </li>
+                It helps identify vulnerabilities and ensures that the system can handle different scenarios.
+            </p>
+            <h3 id=runautomatedexperimentsinproductionenvironments>
+                Run automated experiments in production environments
+            </h3>
+            <p>
+                Prior systems like development, staging, and pre-production do not simulate the actual production systems. That’s why chaos engineering experiments run in actual production systems under controlled conditions.
+            </p>
+
+            <h3 id=minimizingtheblastradius>
+                Minimizing the blast radius
+            </h3>
+            <p>
+                Since chaos engineering experiments are conducted within real production environments, it is crucial to minimize any potential performance degradation or disruptions that customers may experience during their execution. The blast radius should be determined to use metrics:
+                <br>
+                </br>
+                For example:
+                <li>The number of affected users</li>
+                <li>Impacted locations</li>
+                <li>Workload quantities</li>
+            Therefore, it is advisable to schedule these experiments during non-peak times and ensure the availability of backup systems for restorations.
+            </p>
+
+            <h2 id=chaosengineeringtools>
+                Chaos Engineering Tools
+                <a hidden class=anchor aria-hidden=true href=#chaosengineeringtools>#</a>
+            </h2>
+            <p>
+                Chaos engineering tools are a relatively new approach to traditional testing methods used to establish confidence in systems. Software platforms will inevitably fail, and therefore it's critical to pinpoint weaknesses and fix them before they negatively impact business operations.Through the deployment of assumptions and successful chaos experiments, chaos engineering tools can provide a roadmap for uncovering infrastructural failures or unresponsive systems.
+            </p>
+
+            <div id="chaos-mesh">
+                <h3 id=chaosmesh>
+                    Chaos Mesh
+                </h3>
+                <h4 id=chaosmeshpros>
+                    Pros
+                </h4>
+                <p>
+                    <li>Easy-to-use functionality and automation.</li>
+                    <li>The user interface supports many different configurations.</li>
+                    <li>Experiments can be paused and resumed</li>
+                </p>
+                <h4 id=chaosmeshcons>
+                    Cons
+                </h4>
+                <p>
+                    <li>Experiments run indefinitely as there is no ability to schedule attacks</li>
+                    <li>Node-level attacks cannot be run</li>
+                    <li>Cannot control user access within the dashboard; as a result, there are increased security risks</li>
+                </p>
+                <p>
+                    Chaos Mesh is an open-source cloud-native tool. Using various fault simulations, Chaos Mesh helps organizations determine system abnormalities that may occur during various portions of the development, testing process, and production stages.
+                    As an open-source chaos tool that's created with a web user interface known as the Chaos Dashboard, Chaos Mesh can be added to DevOps workflows to spot potential areas of weakness and timeouts. To ensure resiliency, Chaos Mesh utilizes chaos experiments within Kubernetes environments. It's able to use various types of scenarios related to fault simulations within a distributed system.
+                    Chaos Mesh is able to deploy attacks that test network latency, system time manipulation, resource utilization, and more. The Chaos Dashboard can be used to modify and manage various forms of experiments within set timeframes.
+                </p>
+                <h4 id=chaosmeshkeyfeatures>
+                    Key Features
+                </h4>
+                <p>
+                    <li>Chaos Mesh uses a Kubernetes-based interface that's supported with full automation and graphical capabilities used in the testing of high visibility distribution systems such as Apache APISIX and RabbitMQ</li>
+                    <li>Chaos Mesh technology is able to test various scenarios using event-driven fault simulations</li>
+                    <li>Chaos Mesh provides the ability to design experiments on the platform using different variables and status checks</li>
+                </p>
+                <h4 id=chaosmeshcost>
+                    Cost
+                </h4>
+                <p>
+                    As an open-source chaos tool, Chaos Mesh is free to use without a commercial license.
+                </p>
+                <h4 id=shouldiusechaosmesh>
+                    Should I use Chaos Mesh?
+                </h4>
+                <p>
+                    Chaos Mesh offers an open-source technology that can be used in Kubernetes to design and manage automated experiments. However, be wary of certain limitations to the technology. Predicting failures can be a cumbersome task due to the complexities in cloud operations. Unreliable functions and outages can result in a downgraded reputation and a loss of consumer trust.
+                </p>
+            </div>
+            <div id="chaos-monkey">
+                <h3 id=chaosmonkey>
+                    Chaos Monkey
+                </h3>
+                <h4 id=chaosmonkeypros>
+                    Pros
+                </h4>
+                <p>
+                    <li>Configurable technology allows for easy monitoring and scheduling of attacks</li>
+                    <li>Open-source software has no licensing costs</li>
+                    <li>Extensive development history</li>
+                </p>
+                <h4 id=chaosmonkeycons>
+                    Cons
+                </h4>
+                <p>
+                    <li>Can only perform one type of experiment</li>
+                    <li>Attacks are randomized and users have limited control of the blast radius</li>
+                    <li>Requires writing custom code</li>
+                </p>
+                <p>
+                    Netflix’s Chaos Monkey is an open-source chaos engineering tool originally created by Netflix developers. It was developed to help test their system reliability and resiliency after moving to the AWS cloud. The software functions by implementing continuous unpredictable attacks. Chaos Monkey uses the basic fundamental approach of terminating one or more virtual machine instances
+                    The configurability of Chaos Monkey allows for easy scheduling and close monitoring. The technology is easily replicable but can cause headaches if users are unprepared for the aftermath of attacks. Users can check for outages prior to deployment but must be able to write and edit custom Go code.
+                </p>
+                <h4 id=chaosmonkeykeyfeatures>
+                    Key Features
+                </h4>
+                <p>
+                    <li>Detects systems bottlenecks to help limit disruption to production environments</li>
+                    <li>The ability to test resiliency and availability of applications at an infra level</li>
+                    <li>Tests can be scheduled during certain timeframes</li>
+                    <li>Allows for easy monitoring</li>
+                </p>
+                <h4 id=chaosmonkeycost>
+                    Cost
+                </h4>
+                <p>
+                    As open-source software, Chaos Monkey is free to use without a commercial license.
+                </p>
+                <h4 id=shouldiusechaosmonkey>
+                    Should I use Chaos Monkey?
+                </h4>
+                <p>
+                    Chaos Monkey is a popular chaos engineering tool. While it may have revolutionized the open-source community, its contemporary application is far less practical today. Chaos Monkey is useful to an extent, but users must take into account its limitations and arduous deployment capabilities.
+                </p>
+            </div>
+            <div id="gremlin">
+                <h3 id=chaosgremlin>
+                    Gremlin
+                </h3>
+                <h4 id=gremlinpros>
+                    Pros
+                </h4>
+                <p>
+                    <li>Easy-to-use UI allows for various attacks and tests to onboard teams</li>
+                    <li>Support with API for creating manual integrations</li>
+                    <li>Evaluates reliability based on a variety of different factors</li>
+                </p>
+                <h4 id=gremlincons>
+                    Cons
+                </h4>
+                <p>
+                    <li>Software is not customizable</li>
+                    <li>Challenging to integrate experiment JSON files into the software delivery pipeline</li>
+                    <li>Minimal reporting capabilities</li>
+                </p>
+                <p>
+                    Gremlin is the first hosted chaos engineering platform designed to improve web-based reliability. Offered as software-as-a-service (SaaS), Gremlin is able to test system resiliency using multiple attack types. Users provide system inputs as a means of determining which type of attack will provide the most optimal results. Tests can be performed in conjunction with one another as a means of facilitating comprehensive infrastructural assessments.
+                </p>
+                <h4 id=gremlinkeyfeatures>
+                    Key Features
+                </h4>
+                <p>
+                    <li>Controlling failures in a precise and controlled manner</li>
+                    <li>Custom scenarios that include multi-levels of system attacks</li>
+                    <li>Testing process for memory leaks, latency injections, disk fill-ups, and more</li>
+                    <li>GameDay feature</li>
+                    <li>Reliability score based on predefined tests</li>
+                </p>
+                <h4 id=gremlincost>
+                    Cost
+                </h4>
+                <p>
+                    Gremlin's pricing has fluctuated over the years ranging from per-agent pricing to attacks per target to support the frequency of testing required by a team.
+                </p>
+                <h4 id=shouldiusegremlin>
+                    Should I use Gremlin?
+                </h4>
+                <p>
+                    As the world's first managed enterprise chaos engineering technology, Gremlin provides users with the ability to launch dozens of attack vectors, stop and roll back attacks, and improve system reliability. Designed with the mission of creating a sustainable and reliable internet, Gremlin pinpoints software weaknesses to minimize revenue loss and negative systematic impacts.
+                </p>
+            </div>
+            <h2 id=conclusion>
+                Conclusion
+                <a hidden class=anchor aria-hidden=true href=#conclusion>#</a>
+            </h2>
+            <p>
+                In conclusion, chaos engineering continues to play a pivotal role in ensuring the resilience and reliability of modern software systems specially distributed systems, offering organizations valuable insights and tools to proactively address potential failures and disruptions.
+            </p>
+            <blockquote>
+                <p>
+                    <i>NOTE: I'm constantly delighted to receive feedback. Whether you spot an error, have a suggestion for improvement, or just want to share your thoughts, please don't hesitate to comment/reach out. I truly value connecting with readers!</i>
+                </p>
+            </blockquote>
+
+            <footer class=post-footer>
+                <nav class=paginav>
+                    <a class=next href=https://smiah.dev/posts/understanding-distributed-system/>
+                        <span class=title>Next »</span>
+                        <br>
+                        <span>Understanding Distributed Systems</span>
+                    </a></nav>
+                <div class=share-buttons>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Chaos Engineering on twitter" href="https://twitter.com/intent/tweet/?text=Finched%20Rails%20CLI%20makes%20it%20a%20breeze%20to%20try%20out%20Rails%20withough%20installing%20anything%20but%20Finch&amp;url=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-chaos-engineering%2f&amp;hashtags=finch%2cdocker%2crails">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Chaos Engineering on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-chaos-engineering%2f&amp;title=Finched%20Rails%20CLI%20makes%20it%20a%20breeze%20to%20try%20out%20Rails%20withough%20installing%20anything%20but%20Finch&amp;summary=Finched%20Rails%20CLI%20makes%20it%20a%20breeze%20to%20try%20out%20Rails%20withough%20installing%20anything%20but%20Finch&amp;source=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-chaos-engineering%2f">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Chaos Engineering on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-chaos-engineering%2f&title=Finched%20Rails%20CLI%20makes%20it%20a%20breeze%20to%20try%20out%20Rails%20withough%20installing%20anything%20but%20Finch">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Chaos Engineering on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-chaos-engineering%2f">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/>
+                        </svg>
+                    </a>
+                </div>
+            </footer>
+    </article>
+</main>
+<footer class=footer>
+    <span>
+        &copy;2024 <a href=https://smiah.dev/>explore</a>
+    </span>
+    <span>
+        Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a>
+        &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a>
+    </span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor">
+        <path d="M12 6H0l6-6z"/>
+    </svg>
+</a>
+<script>
+    let menu = document.getElementById("menu");
+    menu && (menu.scrollLeft = localStorage.getItem("menu-scroll-position"),
+            menu.onscroll = function() {
+                localStorage.setItem("menu-scroll-position", menu.scrollLeft)
+            }
+    ),
+        document.querySelectorAll('a[href^="#"]').forEach(e=>{
+                e.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    var t = this.getAttribute("href").substr(1);
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView() : document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({
+                        behavior: "smooth"
+                    }),
+                        t === "top" ? history.replaceState(null, null, " ") : history.pushState(null, null, `#${t}`)
+                })
+            }
+        )
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        document.body.scrollTop > 800 || document.documentElement.scrollTop > 800 ? (mybutton.style.visibility = "visible",
+            mybutton.style.opacity = "1") : (mybutton.style.visibility = "hidden",
+            mybutton.style.opacity = "0")
+    }
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", ()=>{
+            document.body.className.includes("dark") ? (document.body.classList.remove("dark"),
+                localStorage.setItem("pref-theme", "light")) : (document.body.classList.add("dark"),
+                localStorage.setItem("pref-theme", "dark"))
+        }
+    )
+</script>
+<script>
+    document.querySelectorAll("pre > code").forEach(e=>{
+            const n = e.parentNode.parentNode
+                , t = document.createElement("button");
+            t.classList.add("copy-code"),
+                t.innerHTML = "copy";
+            function s() {
+                t.innerHTML = "copied!",
+                    setTimeout(()=>{
+                            t.innerHTML = "copy"
+                        }
+                        , 2e3)
+            }
+            t.addEventListener("click", t=>{
+                    if ("clipboard"in navigator) {
+                        navigator.clipboard.writeText(e.textContent),
+                            s();
+                        return
+                    }
+                    const n = document.createRange();
+                    n.selectNodeContents(e);
+                    const o = window.getSelection();
+                    o.removeAllRanges(),
+                        o.addRange(n);
+                    try {
+                        document.execCommand("copy"),
+                            s()
+                    } catch {}
+                    o.removeRange(n)
+                }
+            ),
+                n.classList.contains("highlight") ? n.appendChild(t) : n.parentNode.firstChild == n || (e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE" ? e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t) : e.parentNode.appendChild(t))
+        }
+    )
+</script>
+</body></html><script>
+    (function() {
+            var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
+            ws.onmessage = function(msg) {
+                if (msg.data === 'reload') {
+                    window.location.reload();
+                }
+                if (msg.data.startsWith('update-css ')) {
+                    var messageId = msg.data.substring(11);
+                    var links = document.getElementsByTagName('link');
+                    for (var i = 0; i < links.length; i++) {
+                        var link = links[i];
+                        if (link.rel !== 'stylesheet')
+                            continue;
+                        var clonedLink = link.cloneNode(true);
+                        var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                        if (newHref !== link.href) {
+                            clonedLink.href = newHref;
+                        } else {
+                            var indexOfQuest = newHref.indexOf('?');
+                            if (indexOfQuest >= 0) {
+                                // to support ?foo#hash
+                                clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' + newHref.substring(indexOfQuest + 1);
+                            } else {
+                                clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                            }
+                        }
+                        link.replaceWith(clonedLink);
+                    }
+                }
+            }
+            ;
+        }
+    )();
+</script>
+<script>
+    (function() {
+        var ws = new WebSocket('ws://' + window.location.host +
+            '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+            'referrer=' + encodeURIComponent(window.location.pathname));
+        ws.onmessage = function (msg) {
+            if (msg.data === 'reload') {
+                window.location.reload();
+            }
+            if (msg.data.startsWith('update-css ')) {
+                var messageId = msg.data.substring(11);
+                var links = document.getElementsByTagName('link');
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    if (link.rel !== 'stylesheet') continue;
+                    var clonedLink = link.cloneNode(true);
+                    var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                    if (newHref !== link.href) {
+                        clonedLink.href = newHref;
+                    }
+                    else {
+                        var indexOfQuest = newHref.indexOf('?');
+                        if (indexOfQuest >= 0) {
+                            // to support ?foo#hash
+                            clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                                newHref.substring(indexOfQuest + 1);
+                        }
+                        else {
+                            clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                        }
+                    }
+                    link.replaceWith(clonedLink);
+                }
+            }
+        };
+    })();
+</script>
