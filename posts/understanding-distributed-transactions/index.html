@@ -605,11 +605,11 @@ Commit</code></pre>
                 <li>The saga orchestrator either approves or rejects the <code>deposit</code></li>
             </ul>
             <h4>
-                Drawbacks of 3-Phase Commit
+                Drawbacks of Sagas
             </h4>
             <ul>
-                <li>Less business logic at the saga orchestrator level — Try not to have business logic within the saga orchestrator allowing to have more decoupled architecture. Having business logic outside of the relevant service is “not” recommended as it is advised not to load business logic in the saga orchestrator.</li>
-                <li>Less Isolation — As a whole, microservice architecture lacks Isolation compared to traditional ACID transactions. This is due to the fact that saga participants do commit changes as local transactions before completing the whole transaction. As a result at the database level anomalies could happen.</li>
+                <li>Limit business logic in the saga orchestrator for a cleaner architecture. Keep business logic in relevant services, not in the orchestrator.</li>
+                <li>Less Isolation — Microservice architecture lacks isolation compared to traditional ACID transactions because saga participants commit changes locally before completing the entire transaction, leading to potential database anomalies.</li>
             </ul>
             <h4>
                 Anomalies
@@ -622,11 +622,11 @@ Commit</code></pre>
                 <li>Fuzzy / Non-repeatable Reads — Two different sets of a saga read the same data and get different results because another saga has made updates.</li>
             </ul>
             <p>
-                Out of these three, lost update and dirty read scenarios are the most common. In order to rectify the anomalies, it is required to implement countermeasures in your designs. There are multiple countermeasure approaches in the literature, and some of the important ones are as follows.
+                Out of these three, lost update and dirty read scenarios are the most common. To address anomalies, implementing countermeasures in your designs is necessary. Various countermeasure approaches exist in the literature, with some key ones outlined below.
             </p>
             <ul>
-                <li>Semantic Lock</li>
-                <li>Commutative Updates — Designing the system to have more its update operations to be commutative (updates in an orderly manner). This can basically eliminate lost updates.</li>
+                <li>Semantic Lock - In sagas, an application-level lock uses flags to mark records created or updated by compensatable transactions. These flags signal potential changes and can be cleared by retriable or compensating transactions.</li>
+                <li>Commutative Updates — Designing the system for more commutative update operations ensures orderly updates, minimizing lost updates.</li>
                 <li>Pessimistic View — Reordering saga participants/services to minimize the effect of dirty reads.</li>
                 <li>Reread Values — This countermeasure reread values before updating it to further to re-verify the values are unchanged during the process. This will minimize lost updates.</li>
                 <li>By Value — This strategy will select concurrency mechanisms based on the business risk. This can help to execute low-risk requests using sagas and execute high-risk requests using distributed transactions.</li>
