@@ -119,7 +119,7 @@ Author&rsquo;s Bio Miah Md Shahjahan is Senior Backend Engineer @[Boerse Stuttga
 <header class=header>
         <nav class=nav>
                 <div class=logo>
-                        <a href=https://smaih.dev/ accesskey=h title="explore (Alt + H)">explore</a>
+                        <a href=https://smaih.dev/ accesskey=h title="explore.io (Alt + H)">explore.io</a>
                         <div class=logo-switches>
                                 <button id=theme-toggle accesskey=t title="(Alt + T)">
                                         <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -288,7 +288,7 @@ Author&rsquo;s Bio Miah Md Shahjahan is Senior Backend Engineer @[Boerse Stuttga
 </script>
 </body></html><script>
         (function() {
-                        var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
+                        var ws = new WebSocket('wss://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
                         ws.onmessage = function(msg) {
                                 if (msg.data === 'reload') {
                                         window.location.reload();
