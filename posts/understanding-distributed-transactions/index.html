@@ -580,7 +580,7 @@ Commit</code></pre>
                 Choreography-based sagas
             </h5>
             <p>
-                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-choreography-based-saga.png alt="understanding-distributed-transactions-choreography-based-saga">
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-orchestration-based-saga.png alt="understanding-distributed-transactions-choreography-based-saga">
             </p>
             <p>
                 In this approach, unlike orchestrator-based saga, there is no central coordinator to tell saga participants what to do. Saga participants subscribe to each other’s events and respond accordingly. A banking application that uses this approach would create a deposit using a choreography-based saga that consists of the following steps:
@@ -596,7 +596,7 @@ Commit</code></pre>
                 Orchestration-based sagas
             </h5>
             <p>
-                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-orchestration-based-saga.png alt="understanding-distributed-transactions-orchestration-based-saga">
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-choreography-based-saga.png alt="understanding-distributed-transactions-orchestration-based-saga">
             </p>
             <p>
                 In this type, a central Saga orchestration class is responsible to tell saga participants what to do. An e-commerce/banking application that uses this approach would create a deposit using an orchestration-based saga that consists of the following steps:
