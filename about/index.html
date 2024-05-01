@@ -168,7 +168,7 @@ Author&rsquo;s Bio Miah Md Shahjahan is Senior Backend Engineer @[Boerse Stuttga
                         <h1 class=post-title>About</h1>
                 </header>
                 <div class=post-content>
-                        <p>Software engineering by Miah, Md Shahjahan</p>
+                        <p>Explore.io is brought to you by Miah Md Shahjahan, experienced software architect.</p>
                         <hr>
                         <h2 id=authors-bio>
                                 Author &rsquo;s Bio<a hidden class=anchor aria-hidden=true href=#authors-bio>#</a>
@@ -288,7 +288,7 @@ Author&rsquo;s Bio Miah Md Shahjahan is Senior Backend Engineer @[Boerse Stuttga
 </script>
 </body></html><script>
         (function() {
-                        var ws = new WebSocket('wss://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
+                        var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
                         ws.onmessage = function(msg) {
                                 if (msg.data === 'reload') {
                                         window.location.reload();
