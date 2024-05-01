@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang=en dir=auto>
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name=robots content="index, follow">
+    <title>Understanding Distributed Transactions | explore</title>
+    <link rel=canonical href=https://smiah.dev/posts/understanding-distributed-transactions/>
+    <link crossorigin=anonymous href=https://smiah.dev/assets/css/stylesheet.6a98292fb8fa8cf0f3ba4042d4b75515c04267550f3ad49ff6271b5af9562443.css integrity="sha256-apgpL7j6jPDzukBC1LdVFcBCZ1UPOtSf9icbWvlWJEM=" rel="preload stylesheet" as=style>
+    <script defer crossorigin=anonymous src=https://smiah.dev/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+    <link rel=icon href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=16x16 href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=32x32 href=https://smiah.dev/profile.png>
+    <link rel=apple-touch-icon href=https://smiah.dev/profile.png>
+    <link rel=mask-icon href=https://smiah.dev/profile.png>
+    <meta name=theme-color content="#2e2e33">
+    <meta name=msapplication-TileColor content="#2e2e33">
+    <link rel=alternate hreflang=en href=https://smiah.dev/posts/understanding-distributed-transactions/>
+    <noscript>
+        <style>
+            #theme-toggle,.top-link {
+                display: none
+            }
+        </style>
+        <style>
+            @media(prefers-color-scheme: dark) {
+                :root {
+                    --theme:rgb(29, 30, 32);
+                    --entry: rgb(46, 46, 51);
+                    --primary: rgb(218, 218, 219);
+                    --secondary: rgb(155, 156, 157);
+                    --tertiary: rgb(65, 66, 68);
+                    --content: rgb(196, 196, 197);
+                    --hljs-bg: rgb(46, 46, 51);
+                    --code-bg: rgb(55, 56, 62);
+                    --border: rgb(51, 51, 51)
+                }
+
+                .list {
+                    background: var(--theme)
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-track {
+                    background: 0 0
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-thumb {
+                    border-color: var(--theme)
+                }
+            }
+        </style>
+    </noscript>
+    <script type=application/ld+json>
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Posts",
+                    "item": "https://smiah.dev/posts/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Understanding Distributed Transactions",
+                    "item": "https://smiah.dev/posts/understanding-distributed-transactions/"
+                }
+            ]
+        }</script>
+</head>
+<body id=top>
+<script>
+    localStorage.getItem("pref-theme") === "dark" ? document.body.classList.add("dark") : localStorage.getItem("pref-theme") === "light" ? document.body.classList.remove("dark") : window.matchMedia("(prefers-color-scheme: dark)").matches && document.body.classList.add("dark")
+</script>
+<header class=header>
+    <nav class=nav>
+        <div class=logo>
+            <a href=https://smiah.dev/ accesskey=h title="explore (Alt + H)">explore</a>
+            <div class=logo-switches>
+                <button id=theme-toggle accesskey=t title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <ul class=lang-switch>
+                    <li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id=menu>
+            <li>
+                <a href=https://smiah.dev/about title=about>
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/posts title=posts>
+                    <span>posts</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/works title=works>
+                    <span>works</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/search/ title="search (Alt + /)" accesskey=/>
+                <span>search</span>
+                </a></li></ul></nav></header>
+<main class=main>
+    <article class=post-single>
+        <header class=post-header>
+            <div class=breadcrumbs>
+                <a href=https://smiah.dev/>Home</a>
+                &nbsp;»&nbsp;<a href=https://smiah.dev/posts/>Posts</a>
+            </div>
+            <h1 class=post-title>Understanding Distributed Transactions</h1>
+        </header>
+        <div class=toc>
+            <details open>
+                <summary accesskey=c title="(Alt + C)">
+                    <span class=details>Table of Contents</span>
+                </summary>
+                <div class=inner>
+                    <ul>
+                        <li>
+                            <a href=#preface aria-label=Preface>Preface</a>
+                        </li>
+
+                        <li>
+                            <a href=#whataredistributedtransactions aria-label="What are distributed transactions">What are distributed transactions?</a>
+                        </li>
+
+                        <li>
+                            <a href=#whydoweneeddistributedtransactions aria-label="Why do we need distributed transactions">Why do we need distributed transactions?</a>
+                        </li>
+
+                        <li>
+                            <a href=#usecase aria-label="Use case">Use case scenario</a>
+                            <ul>
+                                <li>
+                                    <a href="#monolithicnonshardeddatastore" aria-label="Monolithic application & non-sharded datastore">Monolithic application & non-sharded datastore</a>
+                                </li>
+                                <li>
+                                    <a href="#monolithicshardeddatastore" aria-label="Monolithic application & sharded datastore">Monolithic application & sharded datastore</a>
+                                </li>
+                                <li>
+                                    <a href="#microserviceswithdifferentdatastore" aria-label="Microservices with different datastore">Microservices with different datastore's</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href=#solutionpatternsfordistributedtransactions aria-label="Solution Patterns for Distributed Transactions">Solution patterns for distributed transactions</a>
+                            <ul>
+                                <li>
+                                    <a href="#synchronoustransactions" aria-label="Synchronous Transactions">Synchronous Transactions</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#twophasecommitprotocol" aria-label="Two-Phase commit protocol">Two-Phase commit protocol(2PC)</a>
+                                        </li>
+                                        <li>
+                                            <a href="#threephasecommitprotocol" aria-label="Three-Phase commit protocol">Three-Phase commit protocol(3PC)</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#asynchronoustransactions" aria-label="Asynchronous Transactions">Asynchronous Transactions</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#sagas" aria-label=Sagas>Sagas</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href=#conclusion aria-label="Conclusion">Conclusion</a>
+                        </li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+        <div class=post-content>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions.png alt="understanding-distributed-transactions">
+            </p>
+            <h2 id=preface>
+                Preface
+                <a hidden class=anchor aria-hidden=true href=#preface>#</a>
+            </h2>
+            <p>
+                Microservice architecture is gaining popularity for building large systems, but a common challenge is managing distributed transactions across multiple microservices.
+                <br>
+                </br>
+                While distributed transactions are important to microservices, they are often misunderstood. In this article, I look to iron out these misunderstandings. I'll share my project experience, the actual problem, potential solutions, and explain it in the simplest way possible.
+            </p>
+            <h2 id=whataredistributedtransactions>
+            What are distributed transactions?
+                <a hidden class=anchor aria-hidden=true href=#whataredistributedtransactions>#</a>
+            </h2>
+            <p>
+                A transaction is like a series of steps or actions that need to happen together. Transactions provide the illusion that either all the operations within a series or group complete successfully or none of them do, as if the series or group were a single atomic operation.
+            <br>
+            </br>
+                If an application only updates data within one database, incorporating changes into a transaction is simple.
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details>How centralized, non-distributed databases implement transactions (ACID)</span>
+                    </summary>
+                    <div class=inner>
+                        <p>
+                            ACID properties make sure that transactions are reliable and consistent in a database, whether it's just single or spread across many databases.
+                        </p>
+                        <h4>
+                            Atomicity
+                        </h4>
+                        <p>
+                            It ensures that partial failures aren't possible.
+                        </p>
+                        <h4>
+                            Consistency
+                        </h4>
+                        <p>
+                            It ensures that transactions bring the database from one consistent state to another consistent state.
+                        </p>
+
+                        <h4>
+                            Isolation
+                        </h4>
+                        <p>
+                            It ensures that transactions operate independently of each other
+                        </p>
+                        <h4>
+                            Durability
+                        </h4>
+                        <p>
+                            Once a transaction is committed, its changes are permanent and survive system failures. This is typically achieved through mechanisms like write-ahead logging or transaction logs, which ensure that committed transactions can be recovered in case of a system crash or failure.
+                        </p>
+
+                    </div>
+                </details>
+            </div>
+                However, if a system needs to update data across multiple data stores all at once, it becomes much harder, requiring the use of distributed transactions.
+            </p>
+
+            <h2 id=whydoweneeddistributedtransactions>
+                Why do we need distributed transactions?
+                <a hidden class=anchor aria-hidden=true href=#whydoweneeddistributedtransactions>#</a>
+            </h2>
+            <p>
+                Let's consider transferring funds from your bank account to a friend's account, but the operation fails due to a network partition, causing communication interruption. In this scenario, your account is debited, but your friend's account is not credited yet. We need to put the debited amount back into your account. It's all about ensuring either both the debit and credit operations succeed together or neither of them happens. This is where transactions come in, ensuring actions like withdrawals and deposits into one transaction.
+                <br>
+                </br>
+                If you have only one database, you wouldn't typically need to deal with distributed transactions in the traditional sense, If deposit and withdrawal operations are handled by separate microservices, each with its own datastore, then you might need distributed transactions to ensure consistency between the two microservices.
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details>However, even with a single database, there are scenarios where transactional integrity is crucial.</span>
+                    </summary>
+                    <div class=inner>
+                        <h4>
+                            Multiple tables
+                        </h4>
+                        <p>
+                            Even if you're using just one database, transactions may still involve multiple tables. For example, updating data in one table based on changes in another. In these cases, transactions ensure that changes are atomic and consistent.
+                        </p>
+                        <h4>
+                            Concurrency control
+                        </h4>
+                        <p>
+                            In multi-user environments such as shared bank account, concurrent transactions may occur. Transactions need to be isolated from each other to prevent interference. For example, if two users attempt to update the same record simultaneously, you want to ensure that one transaction completes before the other starts to maintain data integrity.
+                        </p>
+
+                        <h4>
+                            Error handling
+                        </h4>
+                        <p>
+                            Even with a single database, errors can occur during transactions (e.g., deadlock, constraint violations). Handling these errors gracefully is essential to maintain data consistency and application reliability.
+                        </p>
+                        <p>
+                            So Distributed transactions aren't only relevant in the context of multiple databases, transactional management within a single database remains essential for ensuring data consistency, concurrency control, and error handling.
+                        </p>
+
+                    </div>
+                </details>
+            </div>
+            </p>
+
+            <h2 id=usecase>
+                Usecase scenario
+            </h2>
+            <p>
+                Let's consider a basic banking application where one database server manages various user balances.
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details> Monolithic application and Non-shard database</span>
+                    </summary>
+                    <div class=inner>
+                        <p>
+                            When a user transfers money to another, we must ensure: User Ilia's account is credited and user Sas's account is debited upon successful transaction. The system returns to its pre-transaction state if the database crashes afterward. Transactions fail for reasons like insufficient balance, in which case no updates should occur. The database remains consistent after transactions; for example, user Ilia shouldn't receive credit without user Sas's account being debited.
+                        <br>
+                        </br>
+                            Using a relational database ensures these points through transactions, which guarantee atomicity. Transactions are sets of SQL statements executed by the database. If a failure occurs, the transaction is aborted, leaving data unchanged. Successful transactions commit changes to the underlying data. We can rely on database ACID properties.
+                        </p>
+                        <p>
+                            Following are the possibilities while executing the above transaction: -
+                            <li>Success: In this case, the transaction will be committed. User Sas's balance will be 20 $ & user Ilia's balance will be 80$. If the database crashes after this, it will come back to this same state after recovery.</li>
+                            <li>Failure:If there is a failure while updating the user Sas's balance, the database will abort the transaction. And it will roll back all the changes. The user’s balance won’t be affected.</li>
+                        </p>
+
+                    </div>
+                </details>
+            </div>
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details> Monolithic application and shard database</span>
+                    </summary>
+                    <div class=inner>
+                        <p>
+                            We have now decided to scale our database, to cater to increasing customers. Data is distributed across multiple database servers. So, user Sas and user Ilia’s database records may fall in different shards. Can we still guarantee atomicity in the case of sharded databases?
+                            <br>
+                            </br>
+                            No, since only a single database server guarantees atomicity. While dealing with many database servers, it’s the application’s responsibility to make a transaction atomic. We will see what are the different error scenarios that we need to tackle. We have to ensure that either the transaction completes successfully or fails. We don’t want to leave the transaction midway in an inconsistent state. Protocol like 2-Phase Commit makes distributed transactions atomic in nature.
+                        </p>
+
+                    </div>
+                </details>
+            </div>
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details> Microservices with multiple datastore's</span>
+                    </summary>
+                    <div class=inner>
+                        <p>
+                            We have now decided to scale our services and databases to cater scalability. Data is distributed across multiple database servers. So, deposit and withdraw microservice datastore may fall in a different database. Can we still guarantee atomicity in the case of multiple databases across multiple services?
+                            <br>
+                            </br>
+                            No, as we know by now, only a single database server guarantees atomicity. While dealing with multiple database servers, it’s again the application’s responsibility to make a transaction atomic. We will see what are the different error scenarios that we need to tackle. We have to ensure that either the transaction completes successfully or fails. We don’t want to leave the transaction midway in an inconsistent state. Protocol like 2-Phase Commit, 3-Phase Commit, Sagas makes distributed transactions synchronous and/or asynchronous in nature.
+                        </p>
+
+                    </div>
+                </details>
+            </div>
+            </p>
+
+            <p>
+                In a hypothetical scenario, We now recognize that distributed transactions aren't exclusive to distributed systems. Even monolithic applications can encounter situations where distributed transactions are a part of our daily routine.
+            </p>
+
+
+            <h2 id=solutionpatternsfordistributedtransactions>
+                Solution Patterns for Distributed Transactions
+            </h2>
+            <p>
+                Now that we've identified a scenario requiring distributed transactions, let's explore some common solutions people use to address these challenges.The solution will be tailored to our specific problem domain, determining whether we require synchronous distributed transactions or asynchronous distributed transactions.
+            <br>
+            </br>
+            Let's begin with a more conventional perspective with banking application in accordance with monolithic application and non shards' database. When a user Sas transfers money to the user Ilia, we need to ensure the following steps:-
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details> Monolithic application and non-shard database</span>
+                    </summary>
+                    <div class=inner>
+                        <ul>
+                            <li>Upon successful completion, user Ilia's account is credited and user Sas's account is debited.</li>
+                            <li>If the database server crashes after completion of transaction, it must revert to its state before the transaction.</li>
+                            <li>Transaction failure, such as due to insufficient balance for user Sas, should prevent updating both users' accounts.</li>
+                            <li>After the transaction, the database must ensure consistency, ensuring user Ilia's account isn't credited without a user Sas account being debited.</li>
+                        </ul>
+                        </p>
+                        <p>
+                            <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-transfer.png alt="understanding-distributed-transactions-transfer">
+                        </p>
+
+                        <p>
+                            Possible states after user Sas sends 20€ to user Ilia.
+                        </p>
+                        <p>
+                            <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-database-example.png alt="understanding-distributed-transactions-database-example">
+                        </p>
+                        <p>
+                            For the above example, the database transaction will consist of the following statements :
+                        <pre><code>Begin
+update set balance = balance + 20 where user = ‘Ilia’;
+update set balance = balance - 20 where user = ‘Sas’;
+Commit</code></pre>
+                        </p>
+                        <p>
+                            Assume that the initial balance of user Sas and Ilia are 40€ & 60€ respectively. Following are the possibilities while executing the above transaction: -
+                        </p>
+                        <ul>
+                            <li>Success - In this case, the transaction will be committed. User Sas's balance will be 20 € & user Ilia's balance will be 80€. If the database crashes after this, it will come back to this same state after recovery.</li>
+                            <li>Failure - If there is a failure while updating the user Sas's balance, the database will abort the transaction. And it will roll back all the changes. The user’s balance won’t be affected.</li>
+                        </ul>
+
+                    </div>
+                </details>
+            </div>
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details> Monolithic application and shard's database</span>
+                    </summary>
+                    <div class=inner>
+                        <p>
+                        We have now decided to scale our database, to cater to increasing customers. Data is distributed across multiple database servers. So, user Sas and user Ilia’s database records may fall in different shards.
+                        </p>
+                        <p>
+                            <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-shard-database.png alt="understanding-distributed-transactions-shard-database">
+                        </p>
+
+                        <p>
+                            Can we still guarantee atomicity in the case of sharded databases? No, since only a single database server guarantees atomicity. While dealing with many database servers, it’s the application’s responsibility to make a transaction atomic. We will see what are the different error scenarios that we need to tackle. We have to ensure that either the transaction completes successfully or fails. We don’t want to leave the transaction midway in an inconsistent state. 2-Phase Commit makes distributed transactions atomic in nature.
+                        </p>
+
+                    </div>
+                </details>
+            </div>
+
+            <h3 id=synchronoustransactions>
+               Synchronous Distributed Transactions
+            </h3>
+            <p>
+                A synchronous distributed transaction involves multiple participants such as deposit, withdraw service or components (Transaction Participants) across a network. It means all operations are executed in real-time, coordinating (Transaction Coordinator) each step's completion before proceeding to the next, ensuring transactional consistency and atomicity.
+            </p>
+            <h4 id=twophasecommitprotocol>
+                Two-Phase Commit Protocol (2PC):
+            </h4>
+            <p>
+                The two-phase commit (2PC) protocol is a distributed algorithm that coordinates all the processes that participate in a distributed transaction on whether to commit or abort (roll back) the transaction.
+            </p>
+            <h5>
+                Phases
+            </h5>
+            <p>
+                Two-phase commit consists of the following phases:
+            <ul>
+                <li>Prepare phase: The prepare phase involves the coordinator node collecting consensus from each of the participant nodes. The transaction will be aborted unless each of the nodes responds that they're prepared.</li>
+                <li>Commit phase: If all participants respond to the coordinator that they are prepared, then the coordinator asks all the nodes to commit the transaction.</li>
+            </ul>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-2pc-success.png alt="understanding-distributed-transactions-2pc-success">
+            </p>
+
+            <p>
+                If a failure occurs, the transaction will be rolled back.
+            </p>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-2pc-fail.png alt="understanding-distributed-transactions-2pc-fail">
+            </p>
+
+
+            <h5>
+                Drawbacks of 2-Phase Commit
+            </h5>
+
+            <p>
+                The major downside of the two-phase commit protocol is if the coordinator fails before it can broadcast the outcome to the participants, the participants may get stuck in a waiting state.
+            <ul>
+                <li>What if one of the nodes crashes?</li>
+                <li>What if the coordinator itself crashes?</li>
+                <li>It is a blocking protocol.</li>
+            </ul>
+
+            <h4 id=threephasecommitprotocol>
+                Three-Phase Commit Protocol (3PC):
+            </h4>
+            <p>
+                Three-phase commit (3PC) is an extension of the two-phase commit where the commit phase is split into two phases to mitigate the problems of node crashes, coordinator crash, and aming to reduce 2PC's blocking nature.
+            </p>
+            <h5>
+                Phases
+            </h5>
+            <p>
+                Three-phase commit consists of the following phases:
+            <ul>
+                <li>Prepare phase: This phase is the same as the two-phase commit.</li>
+                <li>Pre-Commit phase: Coordinator issues the pre-commit message and all the participating nodes must acknowledge it. If a participant fails to receive this message in time, then the transaction is aborted.</li>
+                <li>Commit phase: This step is also similar to the two-phase commit protocol.</li>
+            </ul>
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details> Why is the pre-commit phase helpful?</span>
+                    </summary>
+                    <div class=inner>
+                        <p>
+                            The pre-commit phase accomplishes the following:
+                        </p>
+                        <ul>
+                            <li>If the participant nodes are found in this phase, that means that every participant has completed the first phase. The completion of prepare phase is guaranteed.</li>
+                            <li>Every phase can now time out and avoid indefinite waits.</li>
+                        </ul>
+
+                    </div>
+                </details>
+            </div>
+
+
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-3pc.png alt="understanding-distributed-transactions-3pc">
+            </p>
+
+            <h5>
+                Drawbacks of 3-Phase Commit
+            </h5>
+
+            <p>
+                Although the three-phase commit (3PC) protocol addresses some drawbacks of the two-phase commit (2PC) protocol, it has its own limitations:
+            <ul>
+                <li>Complexity: It involves an additional phase. This increased complexity can make implementation and understanding more challenging.</li>
+                <li>Increased Message Overhead: With an extra phase comes increased message exchange between nodes, leading to higher network overhead. This can impact performance, especially in large-scale distributed systems or environments with high latency.</li>
+                <li>Potential for Deadlocks: The additional phase in 3PC introduces the possibility of deadlocks in certain scenarios, where nodes might become deadlocked waiting for messages or acknowledgments from each other.</li>
+            </ul>
+
+            <h3 id=asynchronoustransactions>
+                Asynchronous Distributed Transactions
+            </h3>
+            <p>
+                We've discovered that using protocols like 2PC or 3PC for distributed transactions might not be the best fit for microservices. That's because they rely on synchronous communication, which can slow things down. Instead, we might opt for an asynchronous distributed transaction. In this setup, each part of the transaction can do its job without waiting for the others, communicating the results later on.
+            <br>
+            </br>
+                Furthermore, Commit Protocols like 2PC or 3PC are not supported by many modern-day message brokers such as RabitMQ and Apache Kafka. In addition to that, some of the popular databases such as MongoDB and Cassandra are also not supported.
+            </p>
+            We can solve this by the Saga Pattern.
+
+            <h4 id=sagas>
+                Sagas
+            </h4>
+            <p>
+                A Saga is a sequence of local transactions. Each local transaction updates the local database using the familiar ACID transaction frameworks and publishes an event to trigger the next local transaction in the Saga. If a local transaction fails, then the Saga executes a series of compensating transactions that undo the changes, which were completed by the preceding local transactions.
+            </p>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-saga-1.png alt="understanding-distributed-transactions-saga-1">
+            </p>
+
+            <p>
+                It is an asynchronous and eventually consistent transactional approach, which is quite analogous to a typical microservices application architecture, where a distributed transaction is fulfilled by a set of asynchronous transactions on related microservices.
+            </p>
+
+            <h4>
+                Saga Coordination
+            </h4>
+            <p>
+                Sagas can be implemented in “two ways” primarily based on the logic that coordinates the steps of the Saga.
+            </p>
+            <ul>
+                <li>Choreography-based sagas</li>
+                <li>Orchestration-based sagas</li>
+            </ul>
+            <h5>
+                Choreography-based sagas
+            </h5>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-choreography-based-saga.png alt="understanding-distributed-transactions-choreography-based-saga">
+            </p>
+            <p>
+                In this approach, unlike orchestrator-based saga, there is no central coordinator to tell saga participants what to do. Saga participants subscribe to each other’s events and respond accordingly. A banking application that uses this approach would create a deposit using a choreography-based saga that consists of the following steps:
+            </p>
+            <ul>
+                <li>The <code>Deposit Service</code> receives the <code>POST /deposits</code> request and creates a Deposit in a <code>PENDING</code> state</li>
+                <li>It then emits a <code>Deposit Created</code> event</li>
+                <li>The <code>Withdrawal Service</code> event handler attempts to reserve credit</li>
+                <li>It then emits an event indicating the outcome</li>
+                <li>The <code>DepositService’s</code> event handler either approves or rejects the <code>DepositService</code></li>
+            </ul>
+            <h5>
+                Orchestration-based sagas
+            </h5>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-transactions-orchestration-based-saga.png alt="understanding-distributed-transactions-orchestration-based-saga">
+            </p>
+            <p>
+                In this type, a central Saga orchestration class is responsible to tell saga participants what to do. An e-commerce/banking application that uses this approach would create a deposit using an orchestration-based saga that consists of the following steps:
+            </p>
+            <ul>
+                <li>The <code>Deposit Service</code> receives the <code>POST /deposits</code> request and creates the <code>Create Deposit</code> saga orchestrator</li>
+                <li>The saga orchestrator creates a <code>Deposit</code> in the <code>PENDING state</code></li>
+                <li>It then sends a <code>Reserve Credit</code> command to the <code>Withdrawal Service</code></li>
+                <li>The <code>Customer Service</code> attempts to reserve credit</li>
+                <li>It then sends back a reply message indicating the outcome</li>
+                <li>The saga orchestrator either approves or rejects the <code>deposit</code></li>
+            </ul>
+            <h4>
+                Drawbacks of 3-Phase Commit
+            </h4>
+            <ul>
+                <li>Less business logic at the saga orchestrator level — Try not to have business logic within the saga orchestrator allowing to have more decoupled architecture. Having business logic outside of the relevant service is “not” recommended as it is advised not to load business logic in the saga orchestrator.</li>
+                <li>Less Isolation — As a whole, microservice architecture lacks Isolation compared to traditional ACID transactions. This is due to the fact that saga participants do commit changes as local transactions before completing the whole transaction. As a result at the database level anomalies could happen.</li>
+            </ul>
+            <h4>
+                Anomalies
+            </h4>
+
+            There are three types of anomalies found in a typical saga.
+            <ul>
+                <li>Lost Updates — One saga overwrites an update made by another saga.</li>
+                <li>Dirty Reads — One saga reads data that is in the middle of being updated by another saga.</li>
+                <li>Fuzzy / Non-repeatable Reads — Two different sets of a saga read the same data and get different results because another saga has made updates.</li>
+            </ul>
+            <p>
+                Out of these three, lost update and dirty read scenarios are the most common. In order to rectify the anomalies, it is required to implement countermeasures in your designs. There are multiple countermeasure approaches in the literature, and some of the important ones are as follows.
+            </p>
+            <ul>
+                <li>Semantic Lock</li>
+                <li>Commutative Updates — Designing the system to have more its update operations to be commutative (updates in an orderly manner). This can basically eliminate lost updates.</li>
+                <li>Pessimistic View — Reordering saga participants/services to minimize the effect of dirty reads.</li>
+                <li>Reread Values — This countermeasure reread values before updating it to further to re-verify the values are unchanged during the process. This will minimize lost updates.</li>
+                <li>By Value — This strategy will select concurrency mechanisms based on the business risk. This can help to execute low-risk requests using sagas and execute high-risk requests using distributed transactions.</li>
+            </ul>
+            <h2 id=conclusion>
+                Conclusion
+                <a hidden class=anchor aria-hidden=true href=#conclusion>#</a>
+            </h2>
+            <p>
+                That’s it! Hope you got some good insight into the distributed transactions and other related concepts by reading this post. In exploring distributed transactions for microservices, it's clear that synchronous protocols like 2PC and 3PC pose challenges due to their blocking nature, prompting the need for asynchronous distributed transactions.
+            </p>
+            <blockquote>
+                <p>
+                    <i>NOTE: I'm constantly delighted to receive feedback. Whether you spot an error, have a suggestion for improvement, or just want to share your thoughts, please don't hesitate to comment/reach out. I truly value connecting with readers!</i>
+                </p>
+            </blockquote>
+
+            <footer class=post-footer>
+                <nav class=paginav>
+                    <a class=next href=https://smiah.dev/posts/understanding-distributed-system/>
+                        <span class=title>Next »</span>
+                        <br>
+                        <span>Database Separation in Microservices</span>
+                    </a></nav>
+                <div class=share-buttons>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Distributed Transactions on twitter" href="https://twitter.com/intent/tweet/?text=Understanding Distributed Transactions&amp;url=https://smiah.dev/posts/understanding-distributed-transactions">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Distributed Transactions on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://smiah.dev/posts/understanding-distributed-transactions&amp;title=Understanding Distributed Transactions&amp;summary=Understandin Distributed Transactions&amp;source=https://smiah.dev/posts/understanding-distributed-transactions">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Distributed Transactions on reddit" href="https://reddit.com/submit?url=https://smiah.dev/posts/understanding-distributed-transactions&title=Understanding Distributed Transactions">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Distributed Transactions on facebook" href="https://facebook.com/sharer/sharer.php?u=https://smiah.dev/posts/understanding-distributed-transactions">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/>
+                        </svg>
+                    </a>
+                </div>
+            </footer>
+
+        </div>
+    </article>
+</main>
+<footer class=footer>
+    <span>
+        &copy;2024 <a href=https://smiah.dev/>explore</a>
+    </span>
+    <span>
+        Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a>
+        &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a>
+    </span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor">
+        <path d="M12 6H0l6-6z"/>
+    </svg>
+</a>
+<script>
+    let menu = document.getElementById("menu");
+    menu && (menu.scrollLeft = localStorage.getItem("menu-scroll-position"),
+            menu.onscroll = function() {
+                localStorage.setItem("menu-scroll-position", menu.scrollLeft)
+            }
+    ),
+        document.querySelectorAll('a[href^="#"]').forEach(e=>{
+                e.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    var t = this.getAttribute("href").substr(1);
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView() : document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({
+                        behavior: "smooth"
+                    }),
+                        t === "top" ? history.replaceState(null, null, " ") : history.pushState(null, null, `#${t}`)
+                })
+            }
+        )
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        document.body.scrollTop > 800 || document.documentElement.scrollTop > 800 ? (mybutton.style.visibility = "visible",
+            mybutton.style.opacity = "1") : (mybutton.style.visibility = "hidden",
+            mybutton.style.opacity = "0")
+    }
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", ()=>{
+            document.body.className.includes("dark") ? (document.body.classList.remove("dark"),
+                localStorage.setItem("pref-theme", "light")) : (document.body.classList.add("dark"),
+                localStorage.setItem("pref-theme", "dark"))
+        }
+    )
+</script>
+<script>
+    document.querySelectorAll("pre > code").forEach(e=>{
+            const n = e.parentNode.parentNode
+                , t = document.createElement("button");
+            t.classList.add("copy-code"),
+                t.innerHTML = "copy";
+            function s() {
+                t.innerHTML = "copied!",
+                    setTimeout(()=>{
+                            t.innerHTML = "copy"
+                        }
+                        , 2e3)
+            }
+            t.addEventListener("click", t=>{
+                    if ("clipboard"in navigator) {
+                        navigator.clipboard.writeText(e.textContent),
+                            s();
+                        return
+                    }
+                    const n = document.createRange();
+                    n.selectNodeContents(e);
+                    const o = window.getSelection();
+                    o.removeAllRanges(),
+                        o.addRange(n);
+                    try {
+                        document.execCommand("copy"),
+                            s()
+                    } catch {}
+                    o.removeRange(n)
+                }
+            ),
+                n.classList.contains("highlight") ? n.appendChild(t) : n.parentNode.firstChild == n || (e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE" ? e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t) : e.parentNode.appendChild(t))
+        }
+    )
+</script>
+</body></html><script>
+    (function() {
+            var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
+            ws.onmessage = function(msg) {
+                if (msg.data === 'reload') {
+                    window.location.reload();
+                }
+                if (msg.data.startsWith('update-css ')) {
+                    var messageId = msg.data.substring(11);
+                    var links = document.getElementsByTagName('link');
+                    for (var i = 0; i < links.length; i++) {
+                        var link = links[i];
+                        if (link.rel !== 'stylesheet')
+                            continue;
+                        var clonedLink = link.cloneNode(true);
+                        var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                        if (newHref !== link.href) {
+                            clonedLink.href = newHref;
+                        } else {
+                            var indexOfQuest = newHref.indexOf('?');
+                            if (indexOfQuest >= 0) {
+                                // to support ?foo#hash
+                                clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' + newHref.substring(indexOfQuest + 1);
+                            } else {
+                                clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                            }
+                        }
+                        link.replaceWith(clonedLink);
+                    }
+                }
+            }
+            ;
+        }
+    )();
+</script>
+<script>
+    (function() {
+        var ws = new WebSocket('ws://' + window.location.host +
+            '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+            'referrer=' + encodeURIComponent(window.location.pathname));
+        ws.onmessage = function (msg) {
+            if (msg.data === 'reload') {
+                window.location.reload();
+            }
+            if (msg.data.startsWith('update-css ')) {
+                var messageId = msg.data.substring(11);
+                var links = document.getElementsByTagName('link');
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    if (link.rel !== 'stylesheet') continue;
+                    var clonedLink = link.cloneNode(true);
+                    var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                    if (newHref !== link.href) {
+                        clonedLink.href = newHref;
+                    }
+                    else {
+                        var indexOfQuest = newHref.indexOf('?');
+                        if (indexOfQuest >= 0) {
+                            // to support ?foo#hash
+                            clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                                newHref.substring(indexOfQuest + 1);
+                        }
+                        else {
+                            clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                        }
+                    }
+                    link.replaceWith(clonedLink);
+                }
+            }
+        };
+    })();
+</script>
