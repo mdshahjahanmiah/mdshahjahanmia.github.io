@@ -270,22 +270,24 @@
                             Step 1: Define the Graph Structure
                         </h3>
                         <pre><code>type Edge struct {
-    from, to int
-    weight   float64
+	from, to int
+	weight   float64
 }
 
 type Graph struct {
-    V     int
-    edges []Edge
+	vertices int
+	edges    []Edge
 }
 
+// NewGraph creates a new graph with a specified number of vertices
 func NewGraph(vertices int) *Graph {
-    return &Graph{V: vertices, edges: []Edge{}}
+	return &Graph{vertices: vertices, edges: []Edge{}}
 }
 
-func (g *Graph) addEdge(from, to int, rate float64) {
-    weight := -math.Log(rate)
-    g.edges = append(g.edges, Edge{from: from, to: to, weight: weight})
+// AddEdge adds a directed edge with a weight (negative log of the rate) between two vertices
+func (g *Graph) AddEdge(from, to int, rate float64) {
+	weight := -math.Log(rate)
+	g.edges = append(g.edges, Edge{from: from, to: to, weight: weight})
 }</code></pre>
                         <h3>
                             Step 2: Implement Bellman-Ford Algorithm
