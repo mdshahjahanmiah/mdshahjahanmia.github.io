@@ -157,7 +157,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href=#interquartile-range-method aria-label="Interquartile Range (IQR) Method">Interquartile Range (IQR) Method</a>
+                            <a href=#interquartile-range-method" aria-label="Interquartile Range (IQR) Method">Interquartile Range (IQR) Method</a>
                             <ul>
                                 <li>
                                     <a href="#extract-trade-prices" aria-label="Extract Trade Prices">Extract Trade Prices</a>
@@ -227,10 +227,10 @@
                 Suppose you have the following trades:
                 <img loading=lazy src=https://smiah.dev/assets/vwap-outlier-detection-calculation.png alt="vwap-outlier-detection-calculation">
             </p>
-            <h2 id=bellman-ford-algorithm>
+            <h2 id=interquartile-range-method>
                 Interquartile Range (IQR) Method
             </h2>
-            <h3 >
+            <h3 id="extract-trade-prices">
                 Extract Trade Prices
             </h3>
             <ul>
@@ -238,7 +238,7 @@
                 <li><strong>Sort Prices: </strong> The prices are sorted in ascending order. Sorting is necessary to calculate the quartiles correctly.</li>
             </ul>
 
-            <h3 >
+            <h3 id=calculate-q1-q3-iqr>
                 Calculate Q1, Q3, and IQR
             </h3>
             <ul>
@@ -246,13 +246,13 @@
                 <li><strong>Q3: </strong> (third quartile) is the median of the upper half of the sorted prices.</li>
                 <li><strong>IQR (interquartile range):</strong> is calculated as ( Q3 - Q1 ).</li>
             </ul>
-            <h3 >
+            <h3 id="filter-out-outliers">
                 Filter Out Outliers
             </h3>
             <p>
                 Trades are considered outliers if their prices are below ( Q1 - 1.5 \times IQR ) or above ( Q3 + 1.5 \times IQR ). The function loops through the trades and filters out the ones that fall outside this range.
             </p>
-            <h2 >
+            <h2 id="applications-of-vwap">
                 Applications of VWAP
             </h2>
             <ul>
@@ -328,7 +328,7 @@ func main() {
                 </details>
             </div>
 
-            <h2 >
+            <h2 id="limitations-of-vwap">
                 Limitations of VWAP
             </h2>
             <ul>
