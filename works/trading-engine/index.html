@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang=en dir=auto>
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name=robots content="index, follow">
+    <title>Trading Engine | Works</title>
+    <link rel=canonical href=https://smiah.dev/works/trading-engine/>
+    <link crossorigin=anonymous href=https://smiah.dev/assets/css/stylesheet.6a98292fb8fa8cf0f3ba4042d4b75515c04267550f3ad49ff6271b5af9562443.css integrity="sha256-apgpL7j6jPDzukBC1LdVFcBCZ1UPOtSf9icbWvlWJEM=" rel="preload stylesheet" as=style>
+    <script defer crossorigin=anonymous src=https://smiah.dev/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+    <link rel=icon href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=16x16 href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=32x32 href=https://smiah.dev/profile.png>
+    <link rel=apple-touch-icon href=https://smiah.dev/profile.png>
+    <link rel=mask-icon href=https://smiah.dev/profile.png>
+    <meta name=theme-color content="#2e2e33">
+    <meta name=msapplication-TileColor content="#2e2e33">
+    <link rel=alternate hreflang=en href=https://smiah.dev/works/trading-engine/>
+    <noscript>
+        <style>
+            #theme-toggle,.top-link {
+                display: none
+            }
+        </style>
+        <style>
+            @media(prefers-color-scheme: dark) {
+                :root {
+                    --theme:rgb(29, 30, 32);
+                    --entry: rgb(46, 46, 51);
+                    --primary: rgb(218, 218, 219);
+                    --secondary: rgb(155, 156, 157);
+                    --tertiary: rgb(65, 66, 68);
+                    --content: rgb(196, 196, 197);
+                    --hljs-bg: rgb(46, 46, 51);
+                    --code-bg: rgb(55, 56, 62);
+                    --border: rgb(51, 51, 51)
+                }
+
+                .list {
+                    background: var(--theme)
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-track {
+                    background: 0 0
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-thumb {
+                    border-color: var(--theme)
+                }
+            }
+        </style>
+    </noscript>
+</head>
+<body id=top>
+<script>
+    localStorage.getItem("pref-theme") === "dark" ? document.body.classList.add("dark") : localStorage.getItem("pref-theme") === "light" ? document.body.classList.remove("dark") : window.matchMedia("(prefers-color-scheme: dark)").matches && document.body.classList.add("dark")
+</script>
+<header class=header>
+    <nav class=nav>
+        <div class=logo>
+            <a href=https://smiah.dev/ accesskey=h title="explore.io (Alt + H)">explore.io</a>
+            <div class=logo-switches>
+                <button id=theme-toggle accesskey=t title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <ul class=lang-switch>
+                    <li>| 🇩🇪</li>
+                </ul>
+            </div>
+        </div>
+        <ul id=menu>
+            <li>
+                <a href=https://smiah.dev/about title=about>
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/posts title=posts>
+                    <span>posts</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/works title=works>
+                    <span>works</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/references title=references>
+                    <span>references</span>
+                </a>
+            </li>
+            <!--            <li>-->
+            <!--                <a href=https://smiah.dev/search/ title="search (Alt + /)" accesskey=/>-->
+            <!--                <span>search</span>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <li>
+                <a href="https://smiah.dev/tags/" title="tags"><span>tags</span></a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class=main>
+    <article class=post-single>
+        <header class=post-header>
+            <div class=breadcrumbs>
+                <a href=https://smiah.dev/>Home</a>
+                &nbsp;»&nbsp;<a href=https://smiah.dev/works/>Works</a>
+            </div>
+            <h1 class=post-title>Trading Engine</h1>
+        </header>
+        <div class="post-content">
+            <p><a href=https://www.boerse-stuttgart.de/>Stuttgart Stock Exchange</a> ,<code>Trading Engine</code> team responsible for the matching engine of <a href=https://www.bsdex.de/de/>BSDEX</a></p>
+
+            <h2>Key Features</h2>
+            <ul>
+                <li><strong>Order Matching & Price Discovery:</strong> Efficient, real-time matching of buy and sell orders with advanced algorithms to ensure fair price discovery and maintain market integrity.</li>
+                <li><strong>Order Book Management:</strong> Accurate and real-time order book management, supporting multiple order types and ensuring reliable tracking of all buy and sell activities.</li>
+                <li><strong>Trade Publishing </strong> Low-latency trade publishing via WebSocket and FIX Gateway, providing real-time trade data to internal systems and external clients for enhanced market transparency.</li>
+                <li><strong>Proactive Monitoring & Alerting </strong> Integrated Prometheus and Grafana for real-time system monitoring, with a 90% improvement in alerting, enabling proactive issue detection and faster resolution.</li>
+                <li><strong>Security & Compliance </strong> Markets in Crypto-Assets Regulation (MiCA), ensuring regulatory compliance, data security, and safe trading operations.</li>
+            </ul>
+
+            <h2>Technologies</h2>
+            <ul>
+                <li><strong>Languages:</strong> Go (Golang), gRPC</li>
+                <li><strong>Data Store:</strong> Postgresql, Redis</li>
+                <li><strong>Infrastructure:</strong> Docker, Kubernetes, AWS, Gitlab</li>
+                <li><strong>Monitoring and Analytics:</strong> Prometheus, Grafana for performance monitoring</li>
+                <li><strong>Logging and Error Tracking:</strong> Sentry for real-time error monitoring and alerting</li>
+            </ul>
+
+            <h2>Challenges and Solutions</h2>
+            <p><strong>Challenge:</strong> Handling High-Frequency Trading with Low Latency</p>
+            <p><strong>Solution:</strong> Optimized the database and enhanced system architecture, reducing latency and improving order matching efficiency. Implemented connection pooling and re-architected microservices to improve performance by 20%.</p>
+            <p><strong>Challenge:</strong> Ensuring Zero Downtime</p>
+            <p><strong>Solution:</strong> With closing collaborating with trading floor, trading Platform teams, and enhanced both robust feature testing and real-time monitoring tools using Prometheus and Grafana to proactively detect and resolve issues, ensuring the system remained fully operational 24/7.</p>
+
+            <h2>Impact</h2>
+            <p>The Trading Engine team played a crucial role in ensuring BSDEX’s platform operated reliably, securely, and efficiently. This allowed the platform to provide a seamless and user-friendly experience for its customers while maintaining compliance with regulatory standards. By optimizing the engine, we increased system efficiency by 20%, improved customer experience by 25%, and reduced system load by 20%. We also enhanced alerting by 90%, enabling proactive monitoring and quicker issue resolution, which boosted overall platform performance and reliability.
+
+            </p>
+
+            <h2>Role and Contributions</h2>
+            <p>I joined the Trading Engine team as a Senior Backend Engineer, where I worked extensively on enhancing the core trading platform. Key contributions included:</p>
+            <ul>
+                <li><strong>Exchange, Bookkeeping, Market :</strong> Developed features for the exchange service, bookkeeping, market microservices focusing on order matching and trade execution.</li>
+                <li><strong>Order Book Publishing:</strong> Enhanced order book publishing via the WebSocket Gateway, ensuring accurate and timely updates for users.</li>
+                <li><strong>Database Optimization:</strong> Enhanced database performance by integrating a connection pool, improving the overall engine efficiency.</li>
+                <li><strong>Logging & Error Tracking:</strong> Integrated Golang’s built-in logger with Sentry for better error tracking and system monitoring.</li>
+                <li><strong>FIX Gateway Development:</strong> Built the <a href=https://smiah.dev/works/financial-information-exchange-gateway/>FIX Gateway</a> for FIX 4.4, ensuring secure and compliant connectivity with external systems.</li>
+                <li><strong>Market Data Feed:</strong> Re-architected couple of microservice for example <a href=https://smiah.dev/works/market-data-feed/>Market Data Feed</a> microservice for efficient reading, reconnection, and order-book management.</li>
+                <li><strong>Liquidation:</strong> Developed a liquidation system for handling order closures under specific conditions, eliminate manual liquidation process.</li>
+                <li><strong>Microservices Architecture:</strong> Reduced service-to-service dependency by re-architecting key microservices, improving system scalability and reliability.</li>
+                <li><strong>Extensive Refactoring:</strong> Refactored the entire trading engine by enhancing common libraries and optimizing the distributed system for core engine logging, alerting, data store query optimization, indexing, database connection pooling etc.</li>
+                <li><strong>Markets in Crypto-Assets Regulation(MiCA):</strong> Adapted legacy systems to comply with Markets in Crypto Assets (MiCA) Regulation.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+<footer class=footer>
+    <span>
+        &copy;2024 <a href=https://smiah.dev/>explore.io</a>
+    </span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor">
+        <path d="M12 6H0l6-6z"/>
+    </svg>
+</a>
+<script>
+    let menu = document.getElementById("menu");
+    menu && (menu.scrollLeft = localStorage.getItem("menu-scroll-position"),
+            menu.onscroll = function() {
+                localStorage.setItem("menu-scroll-position", menu.scrollLeft)
+            }
+    ),
+        document.querySelectorAll('a[href^="#"]').forEach(e=>{
+                e.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    var t = this.getAttribute("href").substr(1);
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView() : document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({
+                        behavior: "smooth"
+                    }),
+                        t === "top" ? history.replaceState(null, null, " ") : history.pushState(null, null, `#${t}`)
+                })
+            }
+        )
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        document.body.scrollTop > 800 || document.documentElement.scrollTop > 800 ? (mybutton.style.visibility = "visible",
+            mybutton.style.opacity = "1") : (mybutton.style.visibility = "hidden",
+            mybutton.style.opacity = "0")
+    }
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", ()=>{
+            document.body.className.includes("dark") ? (document.body.classList.remove("dark"),
+                localStorage.setItem("pref-theme", "light")) : (document.body.classList.add("dark"),
+                localStorage.setItem("pref-theme", "dark"))
+        }
+    )
+</script>
+<script>
+    document.querySelectorAll("pre > code").forEach(e=>{
+            const n = e.parentNode.parentNode
+                , t = document.createElement("button");
+            t.classList.add("copy-code"),
+                t.innerHTML = "copy";
+            function s() {
+                t.innerHTML = "copied!",
+                    setTimeout(()=>{
+                            t.innerHTML = "copy"
+                        }
+                        , 2e3)
+            }
+            t.addEventListener("click", t=>{
+                    if ("clipboard"in navigator) {
+                        navigator.clipboard.writeText(e.textContent),
+                            s();
+                        return
+                    }
+                    const n = document.createRange();
+                    n.selectNodeContents(e);
+                    const o = window.getSelection();
+                    o.removeAllRanges(),
+                        o.addRange(n);
+                    try {
+                        document.execCommand("copy"),
+                            s()
+                    } catch {}
+                    o.removeRange(n)
+                }
+            ),
+                n.classList.contains("highlight") ? n.appendChild(t) : n.parentNode.firstChild == n || (e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE" ? e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t) : e.parentNode.appendChild(t))
+        }
+    )
+</script>
+</body></html><script>
+    (function() {
+            var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
+            ws.onmessage = function(msg) {
+                if (msg.data === 'reload') {
+                    window.location.reload();
+                }
+                if (msg.data.startsWith('update-css ')) {
+                    var messageId = msg.data.substring(11);
+                    var links = document.getElementsByTagName('link');
+                    for (var i = 0; i < links.length; i++) {
+                        var link = links[i];
+                        if (link.rel !== 'stylesheet')
+                            continue;
+                        var clonedLink = link.cloneNode(true);
+                        var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                        if (newHref !== link.href) {
+                            clonedLink.href = newHref;
+                        } else {
+                            var indexOfQuest = newHref.indexOf('?');
+                            if (indexOfQuest >= 0) {
+                                // to support ?foo#hash
+                                clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' + newHref.substring(indexOfQuest + 1);
+                            } else {
+                                clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                            }
+                        }
+                        link.replaceWith(clonedLink);
+                    }
+                }
+            }
+            ;
+        }
+    )();
+</script>
+<script>
+    (function() {
+        var ws = new WebSocket('ws://' + window.location.host +
+            '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+            'referrer=' + encodeURIComponent(window.location.pathname));
+        ws.onmessage = function (msg) {
+            if (msg.data === 'reload') {
+                window.location.reload();
+            }
+            if (msg.data.startsWith('update-css ')) {
+                var messageId = msg.data.substring(11);
+                var links = document.getElementsByTagName('link');
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    if (link.rel !== 'stylesheet') continue;
+                    var clonedLink = link.cloneNode(true);
+                    var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                    if (newHref !== link.href) {
+                        clonedLink.href = newHref;
+                    }
+                    else {
+                        var indexOfQuest = newHref.indexOf('?');
+                        if (indexOfQuest >= 0) {
+                            // to support ?foo#hash
+                            clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                                newHref.substring(indexOfQuest + 1);
+                        }
+                        else {
+                            clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                        }
+                    }
+                    link.replaceWith(clonedLink);
+                }
+            }
+        };
+    })();
+</script>
