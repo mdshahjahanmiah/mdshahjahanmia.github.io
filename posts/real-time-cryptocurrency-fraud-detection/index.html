@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang=en dir=auto>
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name=robots content="index, follow">
+    <title>Real-Time Fraud Detection in Cryptocurrency Trading</title>
+    <link rel=canonical href=https://smiah.dev/posts/real-time-cryptocurrency-fraud-detection/>
+    <link crossorigin=anonymous href=https://smiah.dev/assets/css/stylesheet.6a98292fb8fa8cf0f3ba4042d4b75515c04267550f3ad49ff6271b5af9562443.css integrity="sha256-apgpL7j6jPDzukBC1LdVFcBCZ1UPOtSf9icbWvlWJEM=" rel="preload stylesheet" as=style>
+    <script defer crossorigin=anonymous src=https://smiah.dev/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+    <link rel=icon href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=16x16 href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=32x32 href=https://smiah.dev/profile.png>
+    <link rel=apple-touch-icon href=https://smiah.dev/profile.png>
+    <link rel=mask-icon href=https://smiah.dev/profile.png>
+    <meta name=theme-color content="#2e2e33">
+    <meta name=msapplication-TileColor content="#2e2e33">
+    <link rel=alternate hreflang=en href=https://smiah.dev/posts/real-time-cryptocurrency-fraud-detection/>
+    <noscript>
+        <style>
+            #theme-toggle,.top-link {
+                display: none
+            }
+        </style>
+        <style>
+            @media(prefers-color-scheme: dark) {
+                :root {
+                    --theme:rgb(29, 30, 32);
+                    --entry: rgb(46, 46, 51);
+                    --primary: rgb(218, 218, 219);
+                    --secondary: rgb(155, 156, 157);
+                    --tertiary: rgb(65, 66, 68);
+                    --content: rgb(196, 196, 197);
+                    --hljs-bg: rgb(46, 46, 51);
+                    --code-bg: rgb(55, 56, 62);
+                    --border: rgb(51, 51, 51)
+                }
+
+                .list {
+                    background: var(--theme)
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-track {
+                    background: 0 0
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-thumb {
+                    border-color: var(--theme)
+                }
+            }
+        </style>
+    </noscript>
+    <script type=application/ld+json>
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Posts",
+                    "item": "https://smiah.dev/posts/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Real-Time Fraud Detection in Cryptocurrency Trading",
+                    "item": "https://smiah.dev/posts/real-time-cryptocurrency-fraud-detection/"
+                }
+            ]
+        }</script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8em; /* Set font size here */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        th.method, td.method {
+            width: 10%;
+        }
+        th.use-case, td.use-case {
+            width: 20%;
+        }
+        th.how, td.how {
+            width: 20%;
+        }
+        th.examples, td.examples {
+            width: 10%;
+        }
+        th.when-to-use, td.when-to-use {
+            width: 40%;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body id=top>
+<script>
+    localStorage.getItem("pref-theme") === "dark" ? document.body.classList.add("dark") : localStorage.getItem("pref-theme") === "light" ? document.body.classList.remove("dark") : window.matchMedia("(prefers-color-scheme: dark)").matches && document.body.classList.add("dark")
+</script>
+<header class=header>
+    <nav class=nav>
+        <div class=logo>
+            <a href=https://smiah.dev/ accesskey=h title="smiah (Alt + H)">Miah Md Shahjahan</a>
+            <div class=logo-switches>
+                <button id=theme-toggle accesskey=t title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <ul class=lang-switch>
+                    <li>| 🇩🇪</li>
+                </ul>
+            </div>
+        </div>
+        <ul id=menu>
+            <li>
+                <a href=https://smiah.dev/about title=about>
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/posts title=posts>
+                    <span>posts</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/works title=works>
+                    <span>works</span>
+                </a>
+            </li>
+<!--            <li>-->
+<!--                <a href=https://smiah.dev/references title=references>-->
+<!--                    <span>references</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a href=https://smiah.dev/search/ title="search (Alt + /)" accesskey=/><span>search</span></a>-->
+<!--            </li>-->
+            <li>
+                <a href="https://smiah.dev/tags/" title="tags"><span>tags</span></a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class=main>
+    <article class=post-single>
+        <header class=post-header>
+            <div class=breadcrumbs>
+                <a href=https://smiah.dev/>Home</a>
+                &nbsp;»&nbsp;<a href=https://smiah.dev/posts/>Posts</a>
+            </div>
+            <h1 class=post-title>Real-Time Fraud Detection in Cryptocurrency Trading</h1>
+        </header>
+        <div class=toc>
+            <details open>
+                <summary accesskey=c title="(Alt + C)">
+                    <span class=details>Table of Contents</span>
+                </summary>
+                <div class=inner>
+                    <ul>
+                        <li>
+                            <a href=#preface aria-label=Preface>Preface</a>
+                        </li>
+                        <li>
+                            <a href=#understanding-anomalies aria-label="Understanding Anomalies">Understanding Anomalies</a>
+                        </li>
+                        <li>
+                            <a href=#the-importance-of-anomaly-detection-in-crypto-markets aria-label="The Importance of Anomaly Detection in Crypto Markets">The Importance of Anomaly Detection in Crypto Markets</a>
+                            <ul>
+                                <li>
+                                    <a href=#post-transaction-fraud-detection aria-label="Post-Transaction Fraud Detection">Post-Transaction Fraud Detection</a>
+                                </li>
+                                <li>
+                                    <a href=#real-Time-fraud-detection aria-label="Real-Time Fraud Detection">Real-Time Fraud Detection</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href=#methods-for-detecting-anomalies aria-label="Methods for Detecting Anomalies">Methods for Detecting Anomalies</a>
+                        </li>
+                        <li>
+                            <a href=#isolation-forest-for-crypto-fraud-detection aria-label="Isolation Forest for Crypto Fraud Detection">Isolation Forest for Crypto Fraud Detection</a>
+                            <ul>
+                                <li>
+                                    <a href=#why-isolation-forest-algorithm-is-ideal aria-label="Why Isolation Forest Algorithm is Ideal">Why Isolation Forest Algorithm is Ideal</a>
+                                </li>
+                                <li>
+                                    <a href=#implementing-isolation-forest-algorithm-for-real-time-detection aria-label="Implementing Isolation Forest Algorithm for Real-Time Detection">Implementing Isolation Forest Algorithm for Real-Time Detection</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href=#conclusion aria-label=Conclusion>Conclusion</a>
+                        </li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+        <div class=post-content>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/real-time-cryptocurrency-fraud-detection.png alt="real-time-cryptocurrency-fraud-detection">
+            </p>
+            <h2 id=preface>
+                Preface<a hidden class=anchor aria-hidden=true href=#preface>#</a>
+            </h2>
+            <p>
+                Cryptocurrency trading has gained immense popularity, attracting millions of traders worldwide. However, the decentralized and largely unregulated nature of cryptocurrency markets makes them a prime target for fraudulent activities. Real-time fraud detection is crucial to protect investors and maintain the integrity of these markets.
+            </p>
+            <h2 id=understanding-anomalies>
+                Understanding Anomalies<a hidden class=anchor aria-hidden=true href=#understanding-anomalies>#</a>
+            </h2>
+            <p>
+                Anomalies are data points that deviate significantly from the norm. In the context of cryptocurrency trading, anomalies often indicate fraudulent activities, unusual trading patterns, or system malfunctions. Detecting these anomalies is essential to ensure the security and reliability of trading platforms.
+            </p>
+            <h2 id=the-importance-of-anomaly-detection-in-crypto-markets>
+                The Importance of Anomaly Detection in Crypto Markets
+            </h2>
+            <p>
+                Anomaly detection is crucial in cryptocurrency markets for several reasons. It helps prevent financial losses by identifying fraudulent activities quickly and maintains market integrity by mitigating fraud. It protects investors by preventing scams, ensures regulatory compliance, and enhances customer trust and platform credibility through effective fraud prevention.
+            </p>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id=post-transaction-fraud-detection><strong>Post-Transaction Fraud Detection</strong></td>
+                    <td>
+                        <ul>
+                            Anomaly detection plays a vital role in cryptocurrency markets for several reasons:
+                            <li><strong>Prevent Further Fraud:</strong> Immediate detection can halt additional fraudulent activities.</li>
+                            <li><strong>Recovery and Reversal:</strong> Allows for potential reversal of fraudulent transactions and recovery of funds.</li>
+                            <li><strong>Regulatory Compliance:</strong> Ensures compliance with legal requirements by reporting suspicious activities.</li>
+                            <li><strong>Customer Trust:</strong> Maintains trust by showing users that the platform actively detects and addresses fraud.</li>
+                            <li><strong>System Improvements:</strong> Identifies vulnerabilities, leading to continuous improvements in security measures.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td id=real-Time-fraud-detection><strong>Real-Time Fraud Detection</strong></td>
+                    <td>
+                        <ul>
+                            Real-time detection during transactions is essential to stop fraudulent activities before they can be completed. This approach involves:
+                            <li><strong>Continuous Monitoring:</strong> Implementing systems that continuously monitor transaction data in real-time.</li>
+                            <li><strong>Immediate Action:</strong> Integrating automatic actions such as freezing accounts or flagging suspicious transactions for manual review.</li>
+                            <li><strong>Suspicious User Detection:</strong> Identifying and tracking users with suspicious behavior patterns to prevent potential fraud.</li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 id=methods-for-detecting-anomalies>
+                Methods for Detecting Anomalies
+            </h2>
+            <table>
+                <thead>
+                <tr>
+                    <th class="method">Method</th>
+                    <th class="use-case">Use Case</th>
+                    <th class="how">How They Work</th>
+                    <th class="examples">Examples</th>
+                    <th class="when-to-use">When to Use</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="method">Dimensionality Reduction Models</td>
+                    <td class="use-case">Effective for high-dimensional data where reducing dimensionality can help identify anomalies</td>
+                    <td class="how">Reduce the dimensionality of data and identify anomalies in the lower-dimensional space</td>
+                    <td class="examples">Isolation Forest, Principal Component Analysis (PCA)</td>
+                    <td class="when-to-use">When dealing with high-dimensional data and when data is not labeled, such as "fraud" or "not fraud." Isolation Forest is particularly useful for real-time fraud detection in crypto trading</td>
+                </tr>
+                <tr>
+                    <td class="method">Predictive Models</td>
+                    <td class="use-case">Suitable for applications with labeled data and where predictive accuracy is crucial</td>
+                    <td class="how">Use machine learning to predict whether a new instance is normal or anomalous based on labeled data</td>
+                    <td class="examples">Logistic regression, Random Forest, LSTM (Long Short-Term Memory)</td>
+                    <td class="when-to-use">When you have a well-labeled dataset with known instances of normal and anomalous behavior, and need high accuracy</td>
+                </tr>
+                <tr>
+                    <td class="method">Statistical Models</td>
+                    <td class="use-case">Best for datasets with known distributions and small to moderate size</td>
+                    <td class="how">Use statistical properties of the data to identify anomalies</td>
+                    <td class="examples">Seasonal Decomposition of Time Series (STL), Z-score, Grubbs' test</td>
+                    <td class="when-to-use">When you have a good understanding of the data distribution and need a straightforward method for anomaly detection</td>
+                </tr>
+                <tr>
+                    <td class="method">Clustering Models</td>
+                    <td class="use-case">Ideal for datasets where natural groupings are expected</td>
+                    <td class="how">Group data into clusters and identify outliers</td>
+                    <td class="examples">k-means, DBSCAN(Density-Based Spatial Clustering)</td>
+                    <td class="when-to-use">When the data can be clustered naturally, and outliers are significantly different from normal data points</td>
+                </tr>
+                <tr>
+                    <td class="method">NeuralNet Based Models</td>
+                    <td class="use-case">Suitable for large, complex datasets where capturing intricate patterns is necessary</td>
+                    <td class="how">Use neural networks to learn complex data representations and identify anomalies</td>
+                    <td class="examples">Autoencoders, GANs (Generative Adversarial Networks)</td>
+                    <td class="when-to-use">When dealing with highly complex data where traditional methods fall short, and computational resources are available for training deep learning models</td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 id=isolation-forest-for-crypto-fraud-detection>
+                Isolation Forest for Crypto Trading Fraud Detection
+            </h2>
+
+            <h3 id=why-isolation-forest-algorithm-is-ideal>
+                Why Isolation Forest Algorithm is Ideal
+            </h3>
+            <p>
+            The algorithm works by isolating anomalies using decision trees based on random attributes. This random splitting creates shorter paths for anomalies because:
+                <li>Anomalies end up in smaller partitions.</li>
+                <li>Unique values are separated early on.</li>
+            So, if a group of random trees creates shorter paths for certain points, those points are likely anomalies.
+            </p>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/real-time-cryptocurrency-fraud-detection-dot.png alt="real-time-cryptocurrency-fraud-detection-dot">
+            </p>
+            <h4>
+                Unlabeled Data
+            </h4>
+            <p>
+                Cryptocurrency trading often doesn't have labeled data to identify fraudulent and non-fraudulent transactions. The Isolation Forest algorithm, which is an unsupervised learning method, works well in situations with limited labeled data.
+            </p>
+            <h4>
+                Anomaly Detection Focus
+            </h4>
+            <p>
+                Cryptocurrency markets have many transactions but only a few are fraudulent. The Isolation Forest algorithm efficiently detects these rare anomalies by isolating them quickly, making it ideal for spotting unusual patterns that indicate fraud.
+            <h4>
+                Efficiency
+            </h4>
+            <p>
+                Cryptocurrency markets produce large amounts of complex data. Isolation Forest's computational efficiency allows it to scale effectively, enabling real-time fraud detection without significant delays.
+            </p>
+            <h3 id=implementing-isolation-forest-algorithm-for-real-time-detection>
+                Implementing Isolation Forest Algorithm for Real-Time Detection
+            </h3>
+            <p>
+            Let's implement a real-time fraud detection system for cryptocurrency trading using Go. We will fetch price data from the different sources, for instance Binance, CoinGecko, builds an isolation forest for anomaly detection, and reports detected anomalies along with statistics.
+            </p>
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details>How Isolation Forest Algorithm Works</span>
+                    </summary>
+                    <div class=inner>
+
+                        <img loading=lazy src=https://smiah.dev/assets/real-time-cryptocurrency-fraud-detection-isolation-forest-flow.png alt="real-time-cryptocurrency-fraud-detection-isolation-forest-flow">
+                        <img loading=lazy src=https://smiah.dev/assets/real-time-cryptocurrency-fraud-detection-isolation-forest-steps.png alt="real-time-cryptocurrency-fraud-detection-isolation-forest-steps">
+                    </div>
+                </details>
+            </div>
+            <h3>
+                Features
+            </h3>
+            <ul>
+                <li><strong>Enabled Sources:</strong> Perform operations based on enabled sources.</li>
+                <li><strong>Real-time Data Fetching:</strong> Continuously fetches enabled source cryptocurrency price data, e.g., Binance, CoinGecko.</li>
+                <li><strong>Isolation Forest:</strong> Implements an isolation forest for anomaly detection.</li>
+                <li><strong>Anomaly Detection:</strong> Detects anomalies in the price data and reports them.</li>
+                <li><strong>Statistics Reporting with Alert:</strong> Provides statistics on the total number of items and anomalies detected.</li>
+            </ul>
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details>Real-Time Detection using Isolation Forest Algorithm in Golang</span>
+                    </summary>
+                    <div class=inner>
+                        <pre><code>import (
+	"github.com/mdshahjahanmiah/fraud-detection/pkg/config"
+	"github.com/mdshahjahanmiah/fraud-detection/pkg/source"
+	"log/slog"
+	"strings"
+)
+
+func main() {
+	// Load configuration settings
+	conf, err := config.Load()
+	if err != nil {
+		slog.Error("error", "err", err)
+		return
+	}
+
+	// Channels for error handling, completion signal, anomaly detection, and statistics
+	errCh := make(chan error)
+	doneCh := make(chan struct{})
+	anomalyChan := make(chan string)
+	statsChan := make(chan string)
+
+	// Parse and initialize enabled data sources from configuration
+	enabledSources := strings.Split(conf.EnabledSources, ";")
+	for _, src := range enabledSources {
+		switch strings.TrimSpace(src) {
+		case "binance":
+			binanceSource := source.NewBinanceSource(conf)
+			go binanceSource.Start(errCh, doneCh, anomalyChan, statsChan)
+		case "coingecko":
+			coinGeckoSource := source.NewCoinGeckoSource(conf)
+			go coinGeckoSource.Start(errCh, doneCh, anomalyChan, statsChan)
+		default:
+			slog.Warn("unknown source", "source", src)
+		}
+	}
+
+	// Main loop to handle messages from channels
+	for {
+		select {
+		case err := <-errCh:
+			// Log any errors received
+			slog.Error("error", "err", err)
+		case anomaly := <-anomalyChan:
+			// Log any anomalies detected
+			slog.Warn("found anomalies", "anomaly", anomaly)
+		case stats := <-statsChan:
+			// Log statistics about anomalies
+			slog.Info("anomalies statistics", "stats", stats)
+		case <-doneCh:
+			slog.Info("processing completed")
+			return
+		}
+	}
+}</code></pre>
+                        <p>
+                            For the full code, please visit GitHub repository, <a href="https://github.com/mdshahjahanmiah/trading-fraud-detection" target="_blank">Real-Time Fraud Detection in Cryptocurrency Trading</a>
+                        </p>
+                    </div>
+                </details>
+            </div>
+
+
+            <h2 id=conclusion>
+                Conclusion<a hidden class=anchor aria-hidden=true href=#conclusion>#</a>
+            </h2>
+            <p>
+                Isolation Forest is a powerful dimensionality reduction model for anomaly detection, particularly effective in identifying outliers in high-dimensional datasets without the need for labeled training data. Its efficiency and unsupervised nature make it an ideal choice for real-time fraud detection in cryptocurrency trading, where data is abundant and anomalies are rare but significant
+            </p>
+            <blockquote>
+                <p>
+                    <i>NOTE: I'm constantly delighted to receive feedback. Whether you spot an error, have a suggestion for improvement, or just want to share your thoughts, please don't hesitate to comment/reach out. I truly value connecting with readers!</i>
+                </p>
+            </blockquote>
+            <footer class=post-footer>
+                <ul class="post-tags">
+                    <li><a href="https://smiah.dev/tags/tradingarbitragedetector/">Trading</a></li>
+                </ul>
+                <nav class=paginav>
+                    <a class=next href=https://smiah.dev/posts/detecting-arbitrage-opportunities-in-trading/>
+                        <span class=title>Next »</span>
+                        <br>
+                        <span>Detecting Arbitrage in Trading Using Graph Theory</span>
+                    </a></nav>
+                <div class=share-buttons>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Real-Time Fraud Detection in Cryptocurrency Trading on twitter" href="https://twitter.com/intent/tweet/?text=Detecting Arbitrage in Trading Using Graph Theory&amp;url=https://smiah.dev/posts/real-time-cryptocurrency-fraud-detection">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Real-Time Fraud Detection in Cryptocurrency Trading on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fsmiah.dev%2fposts%2freal-time-cryptocurrency-fraud-detection%2f&amp;title=Detecting%20Arbitrage%20in%20Trading%20Using%20Graph%20Theory&amp;summary=Real-Time%20Fraud%20Detection%20in%20Cryptocurrency%20Trading&amp;source=https%3a%2f%2fsmiah.dev%2fposts%2freal-time-cryptocurrency-fraud-detection%2f">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/>
+                        </svg>
+                    </a>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Real-Time Fraud Detection in Cryptocurrency Trading on facebook" href="https://facebook.com/sharer/sharer.php?u=https://smiah.dev/posts/real-time-cryptocurrency-fraud-detection">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/>
+                        </svg>
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </article>
+</main>
+<footer class=footer>
+    <span>
+        &copy;2024 <a href=https://smiah.dev/>smiah.dev</a>
+    </span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor">
+        <path d="M12 6H0l6-6z"/>
+    </svg>
+</a>
+<script>
+    let menu = document.getElementById("menu");
+    menu && (menu.scrollLeft = localStorage.getItem("menu-scroll-position"),
+            menu.onscroll = function() {
+                localStorage.setItem("menu-scroll-position", menu.scrollLeft)
+            }
+    ),
+        document.querySelectorAll('a[href^="#"]').forEach(e=>{
+                e.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    var t = this.getAttribute("href").substr(1);
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView() : document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({
+                        behavior: "smooth"
+                    }),
+                        t === "top" ? history.replaceState(null, null, " ") : history.pushState(null, null, `#${t}`)
+                })
+            }
+        )
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        document.body.scrollTop > 800 || document.documentElement.scrollTop > 800 ? (mybutton.style.visibility = "visible",
+            mybutton.style.opacity = "1") : (mybutton.style.visibility = "hidden",
+            mybutton.style.opacity = "0")
+    }
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", ()=>{
+            document.body.className.includes("dark") ? (document.body.classList.remove("dark"),
+                localStorage.setItem("pref-theme", "light")) : (document.body.classList.add("dark"),
+                localStorage.setItem("pref-theme", "dark"))
+        }
+    )
+</script>
+<script>
+    document.querySelectorAll("pre > code").forEach(e=>{
+            const n = e.parentNode.parentNode
+                , t = document.createElement("button");
+            t.classList.add("copy-code"),
+                t.innerHTML = "copy";
+            function s() {
+                t.innerHTML = "copied!",
+                    setTimeout(()=>{
+                            t.innerHTML = "copy"
+                        }
+                        , 2e3)
+            }
+            t.addEventListener("click", t=>{
+                    if ("clipboard"in navigator) {
+                        navigator.clipboard.writeText(e.textContent),
+                            s();
+                        return
+                    }
+                    const n = document.createRange();
+                    n.selectNodeContents(e);
+                    const o = window.getSelection();
+                    o.removeAllRanges(),
+                        o.addRange(n);
+                    try {
+                        document.execCommand("copy"),
+                            s()
+                    } catch {}
+                    o.removeRange(n)
+                }
+            ),
+                n.classList.contains("highlight") ? n.appendChild(t) : n.parentNode.firstChild == n || (e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE" ? e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t) : e.parentNode.appendChild(t))
+        }
+    )
+</script>
+</body></html><script>
+    (function() {
+            var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
+            ws.onmessage = function(msg) {
+                if (msg.data === 'reload') {
+                    window.location.reload();
+                }
+                if (msg.data.startsWith('update-css ')) {
+                    var messageId = msg.data.substring(11);
+                    var links = document.getElementsByTagName('link');
+                    for (var i = 0; i < links.length; i++) {
+                        var link = links[i];
+                        if (link.rel !== 'stylesheet')
+                            continue;
+                        var clonedLink = link.cloneNode(true);
+                        var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                        if (newHref !== link.href) {
+                            clonedLink.href = newHref;
+                        } else {
+                            var indexOfQuest = newHref.indexOf('?');
+                            if (indexOfQuest >= 0) {
+                                // to support ?foo#hash
+                                clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' + newHref.substring(indexOfQuest + 1);
+                            } else {
+                                clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                            }
+                        }
+                        link.replaceWith(clonedLink);
+                    }
+                }
+            }
+            ;
+        }
+    )();
+</script>
+<script>
+    (function() {
+        var ws = new WebSocket('ws://' + window.location.host +
+            '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+            'referrer=' + encodeURIComponent(window.location.pathname));
+        ws.onmessage = function (msg) {
+            if (msg.data === 'reload') {
+                window.location.reload();
+            }
+            if (msg.data.startsWith('update-css ')) {
+                var messageId = msg.data.substring(11);
+                var links = document.getElementsByTagName('link');
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    if (link.rel !== 'stylesheet') continue;
+                    var clonedLink = link.cloneNode(true);
+                    var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                    if (newHref !== link.href) {
+                        clonedLink.href = newHref;
+                    }
+                    else {
+                        var indexOfQuest = newHref.indexOf('?');
+                        if (indexOfQuest >= 0) {
+                            // to support ?foo#hash
+                            clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                                newHref.substring(indexOfQuest + 1);
+                        }
+                        else {
+                            clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                        }
+                    }
+                    link.replaceWith(clonedLink);
+                }
+            }
+        };
+    })();
+</script>
