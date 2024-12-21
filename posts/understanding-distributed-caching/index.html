@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang=en dir=auto>
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name=robots content="index, follow">
+    <title>Understanding Distributed Caching</title>
+    <link rel=canonical href=https://smiah.dev/posts/understanding-distributed-caching/>
+    <link crossorigin=anonymous href=https://smiah.dev/assets/css/stylesheet.6a98292fb8fa8cf0f3ba4042d4b75515c04267550f3ad49ff6271b5af9562443.css integrity="sha256-apgpL7j6jPDzukBC1LdVFcBCZ1UPOtSf9icbWvlWJEM=" rel="preload stylesheet" as=style>
+    <script defer crossorigin=anonymous src=https://smiah.dev/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+    <link rel=icon href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=16x16 href=https://smiah.dev/profile.png>
+    <link rel=icon type=image/png sizes=32x32 href=https://smiah.dev/profile.png>
+    <link rel=apple-touch-icon href=https://smiah.dev/profile.png>
+    <link rel=mask-icon href=https://smiah.dev/profile.png>
+    <meta name=theme-color content="#2e2e33">
+    <meta name=msapplication-TileColor content="#2e2e33">
+    <link rel=alternate hreflang=en href=https://smiah.dev/posts/understanding-distributed-caching/>
+    <noscript>
+        <style>
+            #theme-toggle,.top-link {
+                display: none
+            }
+        </style>
+        <style>
+            @media(prefers-color-scheme: dark) {
+                :root {
+                    --theme:rgb(29, 30, 32);
+                    --entry: rgb(46, 46, 51);
+                    --primary: rgb(218, 218, 219);
+                    --secondary: rgb(155, 156, 157);
+                    --tertiary: rgb(65, 66, 68);
+                    --content: rgb(196, 196, 197);
+                    --hljs-bg: rgb(46, 46, 51);
+                    --code-bg: rgb(55, 56, 62);
+                    --border: rgb(51, 51, 51)
+                }
+
+                .list {
+                    background: var(--theme)
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-track {
+                    background: 0 0
+                }
+
+                .list:not(.dark)::-webkit-scrollbar-thumb {
+                    border-color: var(--theme)
+                }
+            }
+        </style>
+    </noscript>
+    <script type=application/ld+json>
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Posts",
+                    "item": "https://smiah.dev/posts/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Understanding Distributed Caching",
+                    "item": "https://smiah.dev/posts/understanding-distributed-caching/"
+                }
+            ]
+        }</script>
+</head>
+<body id=top>
+<script>
+    localStorage.getItem("pref-theme") === "dark" ? document.body.classList.add("dark") : localStorage.getItem("pref-theme") === "light" ? document.body.classList.remove("dark") : window.matchMedia("(prefers-color-scheme: dark)").matches && document.body.classList.add("dark")
+</script>
+<header class=header>
+    <nav class=nav>
+        <div class=logo>
+            <a href=https://smiah.dev/ accesskey=h title="smiah (Alt + H)">Miah Md Shahjahan</a>
+            <div class=logo-switches>
+                <button id=theme-toggle accesskey=t title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <ul class=lang-switch>
+                    <li>| 🇩🇪</li>
+                </ul>
+            </div>
+        </div>
+        <ul id=menu>
+            <li>
+                <a href=https://smiah.dev/about title=about>
+                    <span>about</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/posts title=posts>
+                    <span>posts</span>
+                </a>
+            </li>
+            <li>
+                <a href=https://smiah.dev/works title=works>
+                    <span>works</span>
+                </a>
+            </li>
+            <!--            <li>-->
+            <!--                <a href=https://smiah.dev/references title=references>-->
+            <!--                    <span>references</span>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <!--            <li>-->
+            <!--                <a href=https://smiah.dev/search/ title="search (Alt + /)" accesskey=/>-->
+            <!--                <span>search</span>-->
+            <!--                </a>-->
+            <!--            </li>-->
+            <li>
+                <a href="https://smiah.dev/tags/" title="tags"><span>tags</span></a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class=main>
+    <article class=post-single>
+        <header class=post-header>
+            <div class=breadcrumbs>
+                <a href=https://smiah.dev/>Home</a>
+                &nbsp;»&nbsp;<a href=https://smiah.dev/posts/>Posts</a>
+            </div>
+            <h1 class=post-title>Understanding Distributed Caching</h1>
+        </header>
+        <div class="toc">
+            <details open>
+                <summary accesskey="c" title="(Alt + C)">
+                    <span class="details">Table of Contents</span>
+                </summary>
+                <div class="inner">
+                    <ul>
+                        <li>
+                            <a href="#preface" aria-label="Preface">Preface</a>
+                        </li>
+                        <li>
+                            <a href="#whatisdistributedcaching" aria-label="What is Distributed Caching">What is Distributed Caching?</a>
+                        </li>
+                        <li>
+                            <a href="#typesofcaching" aria-label="Different Types of Caching">Different Types of Caching</a>
+                        </li>
+                        <li>
+                            <a href="#needfordistributedcaching" aria-label="The Need for Distributed Caching">Why do we need distributed caching?</a>
+                        </li>
+                        <li>
+                            <a href="#keycomponentsofdistributedcaching" aria-label="Key Components of Distributed Caching">Key Components of Distributed Caching</a>
+                        </li>
+                        <li>
+                            <a href="#populardistributedcachingsolutions" aria-label="Popular Distributed Caching Solutions">Popular Distributed Caching Solutions</a>
+                        </li>
+                        <li>
+                            <a href="#grafanaandcaching" aria-label="How Grafana Benefits from Distributed Caching">How Grafana Benefits from Distributed Caching</a>
+                        </li>
+                        <li>
+                            <a href="#conclusion" aria-label="Conclusion">Conclusion</a>
+                        </li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+        <div class=post-content>
+            <p>
+                <img loading=lazy src=https://smiah.dev/assets/understanding-distributed-caching.png alt>
+            </p>
+            <h2 id=preface>
+                Preface
+                <a hidden class=anchor aria-hidden=true href=#preface>#</a>
+            </h2>
+            <p>
+                Speed and efficiency are critical for creating seamless user experiences. Whether you're streaming videos, shopping online, or using a real-time application, users demand instant responses. Distributed caching is a game-changer that makes applications faster and more efficient by minimizing delays. It ensures data is readily accessible.
+                In this post, I’ll explore distributed caching, discussing what it is, why it’s vital, how you can use it to improve your applications, and the specific ways Grafana benefits from it.
+            </p>
+            <h2 id=whatisdistributedcaching>
+                What is Distributed Caching?
+                <a hidden class=anchor aria-hidden=true href=#whatisdistributedcaching>#</a>
+            </h2>
+            <p >
+                Distributed caching is like having a bunch of mini-libraries around the globe where your application can grab data instantly. Instead of one big library that everyone has to visit, there are many smaller ones, so no matter where you are, the information you need is close by. This setup makes your application run smoother, quicker, and keeps it from crashing under pressure, which is super important for applications that need to work fast and reliably.
+            </p>
+            <h2 id=typesofcaching>
+                Different Types of Caching
+                <a hidden class=anchor aria-hidden=true href=#typesofcaching>#</a>
+            </h2>
+            <p>
+                <a href="https://redis.io/solutions/caching/">Caching</a> can be broadly categorized into two types: local caching and distributed caching.
+            </p>
+            <h3 id="localcaching" aria-label="localcaching">
+                Local Caching
+            </h3>
+            <p >
+                Local caching stores data on the same server where the application is running. It's like having a mini-library in your room where you can quickly grab a book without going to the main library. Local caching is great for small applications or when you need to store data temporarily.
+                <img loading=lazy src=https://smiah.dev/assets/local-caching.png alt>
+            </p>
+
+            <h3 id="distributedcaching" aria-label="distributedcaching">
+                Distributed Caching
+            </h3>
+
+            <p >
+                Distributed caching stores data across multiple servers, making it accessible from anywhere. It's like having mini-libraries in different cities, distributed geographically, so no matter where you are, you can grab a book quickly. Distributed caching is ideal for large applications or when you need to store data permanently.
+                <img loading=lazy src=https://smiah.dev/assets/distributed-caching.png alt>
+            </p>
+
+            <h2 id="needfordistributedcaching" aria-label="Why do we need distributed caching?">
+                Why Do We Need Distributed Caching?
+            </h2>
+            <h3 id="challengeswithlocalcaching" aria-label="challengeswithlocalcaching">
+                Challenges with Local Caching in Distributed Systems
+            </h3>
+            <p >
+                Local caching, while effective for single-machine applications, faces limitations in distributed systems. As applications scale and serve users from various locations, relying solely on local caching can lead to data inconsistencies, increased latency, and potential bottlenecks. For instance, if one server updates its local cache but other servers remain unaware of this change, users might receive outdated data.
+            </p>
+            <h3 id="benefitsofdistributedcaching" aria-label="benefitsofdistributedcaching">
+                Benefits of Distributed Caching
+            </h3>
+
+            <p >
+                Distributed caching addresses the limitations of local caching by storing data across multiple machines or nodes in a network. This approach offers several advantages:
+            </p>
+            <ul>
+                <li><strong>Scalability:</strong> As traffic to an application grows, additional cache servers can be added to the distributed cache system without disrupting existing operations.</li>
+                <li><strong>Fault tolerance: </strong> If one cache server fails, requests can be rerouted to another server, ensuring continuous availability of cached data.</li>
+                <li><strong>Performance: </strong> Data is stored closer to the user, reducing the time taken to fetch it and improving response times.</li>
+            </ul>
+            <h3 id="exampleofthebenefitsofdistributedcaching" aria-label="exampleofthebenefitsofdistributedcaching">
+                Example of the Benefits of Distributed Caching
+            </h3>
+
+            <p >
+                Think of a global online retailer as a worldwide library system. If this retailer only relies on local caching, it's like having all the books in one central library in North America. Customers in Asia would face long waits for information, much like waiting for a book to travel across the globe.
+
+                But with distributed caching, it’s as if the retailer has set up mini-libraries in strategic locations like Asia, North America, and other regions. Now, when someone in Asia wants to learn about a product, they don't need to wait for information to come from far away; they can simply visit their local mini-library (cache server) to instantly access the book (data) they need. This ensures that every customer, regardless of where they are, experiences fast and efficient service, as if they're browsing in their very own local library.
+            </p>
+            <h2 id="keycomponentsofdistributedcaching" aria-label="keycomponentsofdistributedcaching">
+                Key Components of Distributed Caching
+            </h2>
+            <h3 id="cacheserversandtheirroles" aria-label="cacheserversandtheirroles">
+                Cache servers and their roles
+            </h3>
+
+            <p >
+                Distributed caching stores data across multiple servers, making it accessible from anywhere. It's like having mini-libraries in different cities, distributed geographically, so no matter where you are, you can grab a book quickly. Distributed caching is ideal for large applications or when you need to store data permanently.
+            </p>
+            <h3 id="datapartitioningandreplicationstrategies" aria-label="datapartitioningandreplicationstrategies">
+                Data partitioning and replication strategies
+            </h3>
+
+            <p >
+                In distributed caching, data is partitioned across multiple cache servers to ensure efficient data distribution and retrieval. There are several strategies for data partitioning:
+            </p>
+            <ul>
+                <li><strong>Consistent hashing:</strong> This method ensures that data is evenly distributed across cache servers and minimizes data movement when new servers are added or existing ones are removed.</li>
+                <li><strong>Virtual nodes: </strong> Virtual nodes are used to handle scenarios where cache servers have varying capacities. They ensure that data distribution remains balanced even if some servers have higher storage capacities than others.</li>
+            </ul>
+            <p>
+                Replication is another crucial aspect of distributed caching. By replicating data across multiple cache servers, the system ensures data availability even if a server fails. Common replication strategies include master-slave replication, where one server acts as the master and others as replicas, and peer-to-peer replication, where each server acts both as a primary store and a replica for different data items.
+            </p>
+            <h3 id="exampleofdatapartitioningandreplication" aria-label="exampleofdatapartitioningandreplication">
+                Example of Data Partitioning and Replication
+            </h3>
+
+            <p >
+                Imagine our global online retailer example as a network of libraries around the world, each storing different products like books of various genres. When a customer looks for a product, the system smartly sends them to their local library (server) using consistent hashing. If one library faces issues, there are copies of the product data in other libraries, ensuring customers can always find what they need, just like having backup books in nearby libraries.
+            </p>
+            <h2 id="populardistributedcachingsolutions" aria-label="populardistributedcachingsolutions">
+                    Popular Distributed Caching Solutions
+            </h2>
+
+            <h3>Memcached</h3>
+            <p><a href="https://memcached.org/">Memcached</a> is a general-purpose distributed memory caching system. It is designed to speed up dynamic web applications by reducing database load. Memcached is simple yet powerful, supporting a large number of simultaneous connections and offering a straightforward key-value storage mechanism.</p>
+
+            <h3>Redis</h3>
+            <p><a href="https://redis.io/glossary/distributed-caching/">Redis</a> is an open-source, in-memory data structure store that can be used as a cache, database, and message broker. It supports various data structures such as strings, hashes, lists, and sets. Redis is known for its high performance, scalability, and support for data replication and persistence.</p>
+
+            <h3>Hazelcast</h3>
+            <p><a href="https://hazelcast.com/foundations/caching/distributed-cache/">Hazelcast</a> is an in-memory data grid that offers distributed caching, messaging, and computing. It provides features like data replication, partitioning, and native memory storage. Hazelcast is designed for cloud-native architectures and can be easily integrated with popular cloud platforms.</p>
+
+            <h3>Apache Ignite</h3>
+            <p><a href="https://ignite.apache.org/use-cases/in-memory-cache.html">Apache Ignite</a>  is an in-memory computing platform that provides distributed caching, data processing, and ACID-compliant transactions. It can be used as a distributed cache, database, and message broker. Apache Ignite supports data replication, persistence, and querying capabilities.</p>
+
+
+            <div class=toc>
+                <details onclose="">
+                    <summary accesskey=c title="(Alt + C)">
+                        <span class=details>Implementing Distributed Caching using Redis and Golang</span>
+                    </summary>
+                    <div class=inner>
+
+            <pre>
+<code>
+package main
+
+import (
+	books "github.com/mdshahjahanmiah/distributed-caching/pkg/book"
+	"github.com/mdshahjahanmiah/distributed-caching/pkg/cache"
+	"github.com/mdshahjahanmiah/distributed-caching/pkg/config"
+	"github.com/mdshahjahanmiah/explore-go/logging"
+	"log/slog"
+)
+
+func main() {
+	conf, err := config.Load()
+	if err != nil {
+		slog.Error("failed to load configuration", "err", err)
+		return
+	}
+
+	logger, err := logging.NewLogger(conf.LoggerConfig)
+	if err != nil {
+		slog.Error("initializing logger", "err", err)
+		return
+	}
+
+	// Initialize Redis nodes with consistent hashing
+	cache.InitializeNodes()
+	defer cache.Cleanup()
+
+	bookService := books.NewBookService(logger)
+
+	// Fetch book details considering user region
+	bookKey := "book::1984"
+	bookDetails, err := bookService.FetchBookDetails(bookKey, "Europe")
+	if err != nil {
+		logger.Fatal("Failed to fetch book details", "err", err)
+	}
+
+	logger.Info("Fetched book details", "book_details", bookDetails)
+}
+</code>
+</pre>
+                        <p>
+                            For the full code, please visit gitHub repository, <a href="https://github.com/mdshahjahanmiah/distributed-caching" target="_blank">Understanding Distributed Caching</a>
+                        </p>
+                    </div>
+                </details>
+            </div>
+
+            <h2 id="grafanaandcaching" aria-label="grafanaandcaching">
+               How Grafana Benefits from Distributed Caching
+            </h2>
+            <p>Grafana is renowned for its ability to create interactive dashboards for monitoring and visualization, pulling data from various sources. To manage the high volume of data requests and ensure a seamless user experience, Grafana employs distributed caching. This strategy significantly enhances performance, scalability, and user satisfaction.</p>
+
+            <h3>Speeding Up Dashboard Load Times</h3>
+            <h4>Query Caching</h4>
+            <p>Grafana caches the results of queries, meaning if a dashboard or panel is queried multiple times, the data can be fetched from the cache rather than from the original data source each time. This reduces dashboard load times, making the experience smoother for users, especially those dealing with complex queries or dashboards with many panels.</p>
+            <h4>Example:</h4>
+            <p>Imagine a dashboard showing real-time metrics from multiple databases. With distributed caching, the initial query might take longer, but subsequent refreshes are almost instantaneous, as data is pulled from a nearby cache server.</p>
+
+            <h3>Reducing Load on Data Sources</h3>
+            <h4>Lower API Calls</h4>
+            <p>By caching query results, Grafana minimizes the number of direct calls to data sources. This not only speeds up data retrieval but also reduces the strain on backend systems, potentially saving on API costs or preventing throttling by external services.</p>
+            <h4>Use Case</h4>
+            <p>For organizations utilizing cloud-based services like AWS CloudWatch or Azure Monitor, caching can significantly decrease costs associated with API usage limits.</p>
+
+            <h3>Enhancing User Experience Across Geographies</h3>
+            <h4>Geographical Distribution</h4>
+            <p>With distributed caching, data can be stored closer to where users are located. This geographical distribution of cache nodes means users in Europe, Asia, or the Americas experience similar performance, regardless of where the primary data source is located.</p>
+            <h4>Scenario</h4>
+            <p>A global company uses Grafana to monitor their infrastructure. Distributed caching ensures that an engineer in Tokyo has the same fast access to dashboard data as one in New York, without needing to wait for data to travel across continents.</p>
+
+            <h3>Handling High Concurrency</h3>
+            <h4>Scalability</h4>
+            <p>Distributed caching allows Grafana to handle thousands of simultaneous users without degrading performance. Each cache node can independently serve data, balancing the load across the infrastructure.</p>
+            <h4>High-Traffic Events</h4>
+            <p>During peak usage times, like a major product launch or a system-wide incident, distributed caching prevents server overload, keeping dashboards responsive.</p>
+
+            <h3>Data Consistency and Freshness</h3>
+            <h4>Cache Invalidation</h4>
+            <p>Grafana implements strategies like TTL (Time To Live) for cached data, ensuring that while performance is enhanced, data does not become outdated. Users can control how long data remains cached before refreshing from the source.</p>
+            <h4>Real-Time Monitoring</h4>
+            <p>For scenarios where real-time data is crucial, Grafana can be configured to bypass or refresh the cache more frequently, balancing performance with data currency.</p>
+
+            <h2 id=conclusion>
+                Conclusion
+                <a hidden class=anchor aria-hidden=true href=#conclusion>#</a>
+            </h2>
+            <p>
+
+                In conclusion, distributed caching stands out as an essential technique for modern applications, offering speed, scalability, and the ability to manage real-time data efficiently. By distributing data across multiple servers, it not only alleviates the burden on primary data sources but also ensures quick data access, enhancing user experience while accommodating the needs of applications that span across global landscapes.
+            </p>
+            <blockquote>
+                <p>
+                    <i>NOTE: I'm constantly delighted to receive feedback. Whether you spot an error, have a suggestion for improvement, or just want to share your thoughts, please don't hesitate to comment/reach out. I truly value connecting with readers!</i>
+                </p>
+            </blockquote>
+
+            <footer class=post-footer>
+                <div class=share-buttons>
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Distributed Caching" href="https://twitter.com/intent/tweet/?text=Understanding Distributed Caching&amp;url=https://smiah.dev/posts/understanding-distributed-caching">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/>
+                        </svg>
+                    </a>
+                    <a target="_blank" rel="noopener noreferrer" aria-label="share Understanding Distributed Caching on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-distributed-caching%2f&amp;title=Understanding%20C%20%26%20Distributed%Collections&amp;summary=Understanding%20C#%20%26%20Caching&amp;source=https%3a%2f%2fsmiah.dev%2fposts%2funderstanding-distributed-caching%2f">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/>
+                        </svg>
+                    </a>
+
+                    <a target=_blank rel="noopener noreferrer" aria-label="share Understanding Distributed Caching on facebook" href="https://facebook.com/sharer/sharer.php?u=https://smiah.dev/posts/understanding-distributed-caching">
+                        <svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor">
+                            <path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/>
+                        </svg>
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </article>
+</main>
+<footer class=footer>
+    <span>
+        &copy;2024 <a href=https://smiah.dev/>smiah.dev</a>
+    </span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor">
+        <path d="M12 6H0l6-6z"/>
+    </svg>
+</a>
+<script>
+    let menu = document.getElementById("menu");
+    menu && (menu.scrollLeft = localStorage.getItem("menu-scroll-position"),
+            menu.onscroll = function() {
+                localStorage.setItem("menu-scroll-position", menu.scrollLeft)
+            }
+    ),
+        document.querySelectorAll('a[href^="#"]').forEach(e=>{
+                e.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    var t = this.getAttribute("href").substr(1);
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches ? document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView() : document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({
+                        behavior: "smooth"
+                    }),
+                        t === "top" ? history.replaceState(null, null, " ") : history.pushState(null, null, `#${t}`)
+                })
+            }
+        )
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function() {
+        document.body.scrollTop > 800 || document.documentElement.scrollTop > 800 ? (mybutton.style.visibility = "visible",
+            mybutton.style.opacity = "1") : (mybutton.style.visibility = "hidden",
+            mybutton.style.opacity = "0")
+    }
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", ()=>{
+            document.body.className.includes("dark") ? (document.body.classList.remove("dark"),
+                localStorage.setItem("pref-theme", "light")) : (document.body.classList.add("dark"),
+                localStorage.setItem("pref-theme", "dark"))
+        }
+    )
+</script>
+<script>
+    document.querySelectorAll("pre > code").forEach(e=>{
+            const n = e.parentNode.parentNode
+                , t = document.createElement("button");
+            t.classList.add("copy-code"),
+                t.innerHTML = "copy";
+            function s() {
+                t.innerHTML = "copied!",
+                    setTimeout(()=>{
+                            t.innerHTML = "copy"
+                        }
+                        , 2e3)
+            }
+            t.addEventListener("click", t=>{
+                    if ("clipboard"in navigator) {
+                        navigator.clipboard.writeText(e.textContent),
+                            s();
+                        return
+                    }
+                    const n = document.createRange();
+                    n.selectNodeContents(e);
+                    const o = window.getSelection();
+                    o.removeAllRanges(),
+                        o.addRange(n);
+                    try {
+                        document.execCommand("copy"),
+                            s()
+                    } catch {}
+                    o.removeRange(n)
+                }
+            ),
+                n.classList.contains("highlight") ? n.appendChild(t) : n.parentNode.firstChild == n || (e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE" ? e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t) : e.parentNode.appendChild(t))
+        }
+    )
+</script>
+</body></html><script>
+    (function() {
+            var ws = new WebSocket('ws://' + window.location.host + '/jb-server-page?reloadMode=RELOAD_ON_SAVE&' + 'referrer=' + encodeURIComponent(window.location.pathname));
+            ws.onmessage = function(msg) {
+                if (msg.data === 'reload') {
+                    window.location.reload();
+                }
+                if (msg.data.startsWith('update-css ')) {
+                    var messageId = msg.data.substring(11);
+                    var links = document.getElementsByTagName('link');
+                    for (var i = 0; i < links.length; i++) {
+                        var link = links[i];
+                        if (link.rel !== 'stylesheet')
+                            continue;
+                        var clonedLink = link.cloneNode(true);
+                        var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                        if (newHref !== link.href) {
+                            clonedLink.href = newHref;
+                        } else {
+                            var indexOfQuest = newHref.indexOf('?');
+                            if (indexOfQuest >= 0) {
+                                // to support ?foo#hash
+                                clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' + newHref.substring(indexOfQuest + 1);
+                            } else {
+                                clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                            }
+                        }
+                        link.replaceWith(clonedLink);
+                    }
+                }
+            }
+            ;
+        }
+    )();
+</script>
+<script>
+    (function() {
+        var ws = new WebSocket('ws://' + window.location.host +
+            '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+            'referrer=' + encodeURIComponent(window.location.pathname));
+        ws.onmessage = function (msg) {
+            if (msg.data === 'reload') {
+                window.location.reload();
+            }
+            if (msg.data.startsWith('update-css ')) {
+                var messageId = msg.data.substring(11);
+                var links = document.getElementsByTagName('link');
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    if (link.rel !== 'stylesheet') continue;
+                    var clonedLink = link.cloneNode(true);
+                    var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                    if (newHref !== link.href) {
+                        clonedLink.href = newHref;
+                    }
+                    else {
+                        var indexOfQuest = newHref.indexOf('?');
+                        if (indexOfQuest >= 0) {
+                            // to support ?foo#hash
+                            clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                                newHref.substring(indexOfQuest + 1);
+                        }
+                        else {
+                            clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                        }
+                    }
+                    link.replaceWith(clonedLink);
+                }
+            }
+        };
+    })();
+</script>
