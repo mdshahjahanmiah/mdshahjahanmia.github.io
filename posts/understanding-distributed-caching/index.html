@@ -195,6 +195,7 @@
             </h2>
             <p >
                 Distributed caching is like having a bunch of mini-libraries around the globe where your application can grab data instantly. Instead of one big library that everyone has to visit, there are many smaller ones, so no matter where you are, the information you need is close by. This setup makes your application run smoother, quicker, and keeps it from crashing under pressure, which is super important for applications that need to work fast and reliably.
+                <img loading=lazy src=https://smiah.dev/assets/what-is-distributed-caching.png alt>
             </p>
             <h2 id=typesofcaching>
                 Different Types of Caching
@@ -289,7 +290,7 @@
             <p><a href="https://memcached.org/">Memcached</a> is a general-purpose distributed memory caching system. It is designed to speed up dynamic web applications by reducing database load. Memcached is simple yet powerful, supporting a large number of simultaneous connections and offering a straightforward key-value storage mechanism.</p>
 
             <h3>Redis</h3>
-            <p><a href="https://redis.io/glossary/distributed-caching/">Redis</a> is an open-source, in-memory data structure store that can be used as a cache, database, and message broker. It supports various data structures such as strings, hashes, lists, and sets. Redis is known for its high performance, scalability, and support for data replication and persistence.</p>
+            <p><a href="https://redis.io/glossary/distributed-caching/">Redis</a> is an open-source, in-memory data structure store that can be used as a <a href="https://redis.io/glossary/distributed-caching/">distributed cache</a> , database, and message broker. It supports various data structures such as strings, hashes, lists, and sets. Redis is known for its high performance, scalability, and support for data replication and persistence.</p>
 
             <h3>Hazelcast</h3>
             <p><a href="https://hazelcast.com/foundations/caching/distributed-cache/">Hazelcast</a> is an in-memory data grid that offers distributed caching, messaging, and computing. It provides features like data replication, partitioning, and native memory storage. Hazelcast is designed for cloud-native architectures and can be easily integrated with popular cloud platforms.</p>
@@ -301,7 +302,7 @@
             <div class=toc>
                 <details onclose="">
                     <summary accesskey=c title="(Alt + C)">
-                        <span class=details>Implementing Distributed Caching using Redis and Golang</span>
+                        <span class=details>Implementing Distributed Caching with Redis in Golang</span>
                     </summary>
                     <div class=inner>
 
@@ -361,7 +362,10 @@ func main() {
 
             <h3>Speeding Up Dashboard Load Times</h3>
             <h4>Query Caching</h4>
-            <p>Grafana caches the results of queries, meaning if a dashboard or panel is queried multiple times, the data can be fetched from the cache rather than from the original data source each time. This reduces dashboard load times, making the experience smoother for users, especially those dealing with complex queries or dashboards with many panels.</p>
+            <p>
+                Grafana caches the results of queries, meaning if a dashboard or panel is queried multiple times, the data can be fetched from the cache rather than from the original data source each time. This reduces dashboard load times, making the experience smoother for users, especially those dealing with complex queries or dashboards with many panels.
+                <img loading=lazy src=https://smiah.dev/assets/query-caching.png alt>
+            </p>
             <h4>Example:</h4>
             <p>Imagine a dashboard showing real-time metrics from multiple databases. With distributed caching, the initial query might take longer, but subsequent refreshes are almost instantaneous, as data is pulled from a nearby cache server.</p>
 
