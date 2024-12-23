@@ -109,6 +109,36 @@
                                 }
                         }
                 }</script>
+        <style>
+                #searchbox {
+                        text-align: center;
+                        margin: 20px auto;
+                }
+
+                #searchbox h1 {
+                        font-size: 24px;
+                        color: #333;
+                        margin-bottom: 10px;
+                }
+
+                #searchInput {
+                        width: 100%;
+                        max-width: 600px; /* Adjust the max-width as needed */
+                        padding: 15px;
+                        font-size: 18px;
+                        border-radius: 8px;
+                        border: 2px solid #ccc;
+                        margin-top: 10px;
+                        box-sizing: border-box;
+                }
+
+                #searchResults {
+                        margin-top: 10px;
+                        padding: 0;
+                        list-style: none;
+                }
+
+        </style>
 </head>
 <body class=list id=top>
 <script>
@@ -156,15 +186,6 @@
                                         <span>works</span>
                                 </a>
                         </li>
-<!--                        <li>-->
-<!--                                <a href=https://smiah.dev/references title=references>-->
-<!--                                        <span>references</span>-->
-<!--                                </a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                                <a href=https://smiah.dev/search/ title="search (Alt + /)" accesskey=/><span class="active">search</span>-->
-<!--                                </a>-->
-<!--                        </li>-->
                         <li>
                                 <a href="https://smiah.dev/tags/" title="tags"><span>tags</span></a>
                         </li>
@@ -173,19 +194,14 @@
 </header>
 <main class=main>
         <header class=page-header>
-                <h1>
-                        Search 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"/>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        </svg>
-                </h1>
                 <div class=post-meta></div>
         </header>
         <div id=searchbox>
-                <input id=searchInput autofocus placeholder="Search ↵" aria-label=search type=search autocomplete=off>
+                <h1>What can I help you find?</h1>
+                <input id="searchInput" type="search" placeholder="Explore software engineering" autocomplete="off">
                 <ul id=searchResults aria-label="search results"></ul>
         </div>
+        <div id="suggestions"></div>
 </main>
 <footer class=footer>
     <span>
